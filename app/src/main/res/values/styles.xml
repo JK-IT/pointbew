@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dialog Theme -->
+    <style name="KusDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertTitleStyle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertTextStyle</item>
+        <item name="colorOnSurface">#4288bc</item>
+        <item name="colorPrimary">#bc4287</item>
+        <item name="colorSecondary">#3b4086</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerRadius">20dp</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+
+        <item name="cornerRadius">25dp</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="AlertTitleStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="fontFamily">@font/montserratxbold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="AlertTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:layout_marginVertical">20dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="KusToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/montserratbold</item>
+    </style>
+
+
+</resources>
