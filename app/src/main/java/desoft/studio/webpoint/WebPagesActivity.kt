@@ -23,6 +23,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 private const val tagg = "WEB PAGES ACTIVITY";
@@ -32,6 +34,7 @@ class WebPagesActivity : AppCompatActivity() {
     var webv : WebView? = null;
     var spinner : ProgressBar? = null;
     var tarUrl : String? = null;
+    var failedToLoad : Boolean = false;
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +42,11 @@ class WebPagesActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_web_view)
         spinner = findViewById(R.id.spin_bar);
+        MobileAds.initialize(this);
+        var adquest = AdRequest.Builder().build();
+        var adview : com.google.android.gms.ads.AdView = findViewById(R.id.main_adview);
+        adview.loadAd(adquest);
+        
         //var upArrow : Drawable? =  ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
         //upArrow?.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
         setSupportActionBar(findViewById(R.id.wv_toolbar));
@@ -102,7 +110,14 @@ class WebPagesActivity : AppCompatActivity() {
        when(item.itemId)
        {
            R.id.webview_menu_reload -> {
-               webv?.reload();
+               if(failedToLoad)
+               {
+                   // load from tarurl of intent
+                   LoadWebpoint(webv!!, tarUrl!!);
+               } else
+               {
+                   webv?.reload();
+               }
            }
        }
        return super.onOptionsItemSelected(item);
@@ -154,6 +169,7 @@ class WebPagesActivity : AppCompatActivity() {
         }
         else
         {
+            failedToLoad = true;
             MaterialAlertDialogBuilder(this).setTitle("No Connection")
                 .setIcon(R.drawable.ic_baseline_wifi_off_black_24)
                 .setMessage(R.string.no_connection).setNeutralButton("Ok"){
@@ -170,7 +186,9 @@ class WebPagesActivity : AppCompatActivity() {
     inner class MywebviewCli : WebViewClient()
     {
         override fun onPageStarted(v: WebView?, url: String?, favicon: Bitmap?) {
+            Log.i(tagg, "Loading page url: ${url}}");
             spinner!!.visibility = View.VISIBLE;
+            failedToLoad = false;
             //v!!.visibility = View.INVISIBLE;
             super.onPageStarted(v, url, favicon)
         }

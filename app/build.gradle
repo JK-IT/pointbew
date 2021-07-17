@@ -28,8 +28,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            debuggable true
-            jniDebuggable true
+            debuggable false
+            jniDebuggable false
             applicationIdSuffix ".prod"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -59,6 +59,8 @@ dependencies {
     def room_ver = "2.3.0"
     def lifecycle_ver = "2.3.1"
     def arch_ver= "2.1.0"
+    def ad_mod_ver = "20.2.0"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
@@ -106,4 +108,7 @@ dependencies {
 
     // cardview
     implementation "androidx.cardview:cardview:1.0.0"
+
+    // google admod
+    implementation "com.google.android.gms:play-services-ads:$ad_mod_ver"
 }

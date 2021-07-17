@@ -3,31 +3,48 @@
     package="desoft.studio.webpoint">
 
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
-        android:theme="@style/Theme.WebPoint">
-        <activity
-            android:name="desoft.studio.webpoint.WebPagesActivity"
-            android:parentActivityName="desoft.studio.webpoint.MainActivity"
-            android:configChanges="keyboardHidden|screenLayout|screenSize|orientation"/>
+        android:theme="@style/Theme.WebPoint"
+        android:usesCleartextTraffic="true">
 
-        <activity android:name="desoft.studio.webpoint.MainActivity"
-            android:configChanges="keyboardHidden|screenLayout|screenSize|orientation">
+        <activity
+            android:name=".SplashActi"
+            android:theme="@style/KusSplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenLayout|screenSize|keyboardHidden|keyboard"
+            android:windowSoftInputMode="adjustPan"
+            >
+        </activity>
+<!--            android:windowSoftInputMode="adjustResize|stateVisible">-->
+
+        <activity
+            android:name=".WebPagesActivity"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboardHidden|screenLayout|screenSize|orientation"
+            android:parentActivityName=".MainActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3254181174406329~3007920370" />
     </application>
 
 </manifest>

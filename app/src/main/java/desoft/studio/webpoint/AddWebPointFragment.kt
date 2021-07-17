@@ -36,7 +36,7 @@ private const val tagg = "ADD POINT FRAGMENT";
  * create an instance of this fragment.
  */
 
-class AddWebPointFragment :Fragment()
+class AddWebPointFragment() :Fragment()
 {
    // TODO: Rename and change types of parameters
    private var param1: String? = null
@@ -118,8 +118,8 @@ class AddWebPointFragment :Fragment()
       addButt!!.setOnClickListener {
          try
          {
-            val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager;
-            imm.hideSoftInputFromWindow(v.windowToken,0 )
+            /*val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager;
+            imm.hideSoftInputFromWindow(v.windowToken,0 )*/
             val point = Wpoint(nameinput.text.toString().uppercase(), urlinput.text.toString());
             vmodel.AddPoint(point);
             parentFragmentManager.popBackStack();
@@ -132,8 +132,8 @@ class AddWebPointFragment :Fragment()
       }
       
       cancelButt!!.setOnClickListener{
-         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
-         imm.hideSoftInputFromWindow(v.windowToken,0 )
+         /*val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
+         imm.hideSoftInputFromWindow(v.windowToken,0 )*/
          parentFragmentManager.popBackStack();
       }
    }
@@ -150,13 +150,14 @@ class AddWebPointFragment :Fragment()
        */
       // TODO: Rename and change types and number of parameters
       @JvmStatic
-      fun newInstance(param1: String, param2: String) =
-         AddWebPointFragment().apply {
+      fun newInstance() =
+         AddWebPointFragment()
+            /*.apply {
             arguments = Bundle().apply {
                putString(ARG_PARAM1, param1)
                putString(ARG_PARAM2, param2)
-            }
-         }
+            }*/
+         
    }
    
    

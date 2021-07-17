@@ -10,6 +10,7 @@ import android.util.Patterns
 import android.view.*
 import android.widget.*
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.selection.SelectionTracker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -37,7 +38,8 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        val v = LayoutInflater.from(parent.context)
+        var v: View;
+        v = LayoutInflater.from(parent.context)
             .inflate(R.layout.recyview_item_layout, parent, false);
         return this.ViewHolder(v, parent.context);
     }
@@ -118,14 +120,58 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
                 isEnabled = true;
                 setOnClickListener{
                     Log.i(tagg, "Edit button is clicked");
+                    
                     // pop up the add item dialog
                     val v = LayoutInflater.from(ctx).inflate(R.layout.frag_update_layout, null);
                     val point = dataSet[absoluteAdapterPosition];
-                    val nameinput : EditText = v.findViewById(R.id.frag_update_name);
+                    var disfrag = KusDiaFrag(R.layout.frag_update_layout);
+                    disfrag.SetViewHandler(object : KusDiaFrag.SetupView{
+                        override fun SetViewUI(vi: View)
+                        {
+                            val nameinput : EditText = vi.findViewById(R.id.frag_update_name);
+                            nameinput.text = SpannableStringBuilder(point.Name);
+                            val urlinput : EditText = vi.findViewById(R.id.frag_update_url);
+                            urlinput.text = SpannableStringBuilder(point.Url);
+                            val update : Button = vi.findViewById(R.id.frag_update_button);
+                            val cancel : Button = vi.findViewById(R.id.frag_cancel_button);
+                            update.setOnClickListener(){
+                                if(nameinput.text.toString().isNotBlank() && urlinput.text.toString().isNotBlank() && Patterns.WEB_URL.matcher(urlinput.text.toString()).matches())
+                                {
+                                    var updatepoint = Wpoint(nameinput.text.toString().uppercase(),urlinput.text.toString() );
+                                    if(dataSet.indexOfFirst { it.Name.contains(nameinput.text)} != -1) // find the duplicate key
+                                    {
+                                        (ctx as MainActivity).AddPointNDelete(false, 0, updatepoint);
+                                    }
+                                    else { // the new point not existed
+                                        (ctx as MainActivity).AddPointNDelete(true, absoluteAdapterPosition, updatepoint);
+                                    }
+                                    Toast.makeText((ctx as MainActivity), "Successfully update the item", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Snackbar.make((ctx as MainActivity).window.decorView.findViewById(android.R.id.content), "Please Enter Valid Name and Url!", Snackbar.LENGTH_SHORT).setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
+                                }
+                                disfrag.dismiss();
+                            }
+                            cancel.setOnClickListener(){
+                                disfrag.dismiss();
+                            }
+                            
+                            
+                        }
+                    })
+                    var ft = (ctx as MainActivity).supportFragmentManager.beginTransaction();
+                    var prev = (ctx as MainActivity).supportFragmentManager.findFragmentByTag(KusDiaFrag.tagg);
+                    if(prev != null)
+                    {
+                        ft.remove(prev);
+                    }
+                    disfrag.show((ctx as MainActivity).supportFragmentManager, KusDiaFrag.tagg)
+                    //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    //ft.add(android.R.id.content, disfrag).addToBackStack(null).commit();
+                    /*val nameinput : EditText = v.findViewById(R.id.frag_update_name);
                     nameinput.text = SpannableStringBuilder(point.Name);
                     val urlinput : EditText = v.findViewById(R.id.frag_update_url);
-                    urlinput.text = SpannableStringBuilder(point.Url);
-                    MaterialAlertDialogBuilder(ctx!!)
+                    urlinput.text = SpannableStringBuilder(point.Url);*/
+                    /*MaterialAlertDialogBuilder(ctx!!)
                         .setView(v)
                         .setCancelable(true)
                         .setPositiveButton("Update"){
@@ -149,7 +195,7 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
                         }
                         .setNegativeButton("Cancel"){
                             dialog,_ -> dialog.dismiss();
-                        }.create().show();
+                        }.create().show();*/
                 }
             }
             deletebut = v.findViewById<ImageButton>(R.id.delete_button).apply {
@@ -169,8 +215,6 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
                         }.setCancelable(true).create().show();
                 }
             }
-            
-            
             /**
              * u don't need this cuz, u will implement click on SelectionTracker.Builder
              * v.setOnClickListener(View.OnClickListener(){

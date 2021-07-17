@@ -1,13 +1,11 @@
 package desoft.studio.webpoint
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.view.ActionMode
@@ -18,10 +16,12 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import desoft.studio.webpoint.data.Wpoint
 import desoft.studio.webpoint.data.WpointVM
-import kotlin.math.log
 
 private const val tagg = "MAIN ACTIVITY";
 private const val actiStack = "Main Activity Stack";
@@ -48,15 +48,34 @@ class MainActivity : AppCompatActivity() {
    
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
-      setContentView(R.layout.activity_main)
+      setContentView(R.layout.activity_main_old)
+      // set up the  google admob
+      MobileAds.initialize(this);
+      var adReq = AdRequest.Builder().build();
+      var adview : com.google.android.gms.ads.AdView = findViewById(R.id.main_adview);
+      adview.loadAd(adReq);
       // init setup
       fragMan = supportFragmentManager;
       fragview = findViewById(R.id.main_fragContainerView);
       setSupportActionBar(findViewById(R.id.main_toolbar));
+      var intoview:TextView = findViewById(R.id.main_empty_data_view);
+      var recyview : RecyclerView = findViewById(R.id.main_recyView);
       WpointFactory.isActionMode.observe(this, isActionModeWatcher);
+      kusdapter = KusAdapter(this);
       
-      // view setup
-      SetupView();
+      WpointFactory.ReadAll.observe(this, Observer {
+         kusdapter?.SetData(it);
+         Log.d(tagg, "Livedata Observer - size of adapter ${kusdapter?.GetAdapterData()?.size}")
+         if(kusdapter?.GetAdapterData()?.isNotEmpty() == true)
+         {
+           intoview.visibility = View.GONE;
+            recyview.visibility = View.VISIBLE;
+         } else {
+           intoview.visibility = View.VISIBLE;
+            recyview.visibility = View.GONE;
+         }
+      })
+      SetupRecyView(recyview);
       if(savedInstanceState != null)
       {
          // restore selection here
@@ -79,17 +98,10 @@ class MainActivity : AppCompatActivity() {
    // ------------------------- MY METHODS -----------------------------
    
    // Setup recyclerview and data
-   fun SetupView()
+   fun SetupRecyView(recy:RecyclerView)
    {
-      val recy: RecyclerView = findViewById(R.id.main_recyView);
       recy.layoutManager = GridLayoutManager(applicationContext, 1);
-      // get data list from database
-      kusdapter = KusAdapter(this); // passing this will be understand as activity context
       recy.adapter = kusdapter;
-      WpointFactory.ReadAll.observe(this, Observer {
-         kusdapter?.SetData(it);
-      })
-      
       // selection tracker
       tracker = SelectionTracker.Builder<String>(
             "MainFragPointList", recy, KusItemKeyTeller(kusdapter!!), KusItemLookup(recy), StorageStrategy.createStringStorage())
@@ -110,6 +122,7 @@ class MainActivity : AppCompatActivity() {
       fbutt.setOnClickListener { //Snackbar.make(it, "sup", Snackbar.LENGTH_LONG) .setAction("Action", null).show();
    
          fragMan?.commit {
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             setReorderingAllowed(true);
             add<AddWebPointFragment>(R.id.main_fragContainerView);
             addToBackStack(actiStack); // this will handle back button press to pop off fragment
