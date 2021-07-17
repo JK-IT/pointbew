@@ -11,11 +11,9 @@ class KusItemLookup (val recyview: RecyclerView) : ItemDetailsLookup<String> ()
    override fun getItemDetails(e: MotionEvent): KusItemDetails<String>?
    {
       val v = recyview.findChildViewUnder(e.x, e.y);
-
       if(v != null)
       {
-         Log.d(tag, "Motion Touch Look Up");
-            return (recyview.getChildViewHolder(v) as KusAdapter.ViewHolder).GetItemDetails();
+         return (recyview.getChildViewHolder(v) as KusAdapter.ViewHolder).GetItemDetails();
       }
       return null;
    }

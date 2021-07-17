@@ -27,7 +27,6 @@ class WpointVM(appli: Application) : AndroidViewModel(appli)
    
    fun AddPoint(point: Wpoint)
    {
-      // dispatcher.io == run in background thread
       viewModelScope.launch(Dispatchers.IO) { repo.AddPoint(point) };
    }
 

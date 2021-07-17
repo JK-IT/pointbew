@@ -34,10 +34,8 @@ class KustextualCb(val ctx : Context, @MenuRes val menuId: Int, val viadapter: K
          R.id.menu_delete ->{
             if(viadapter.selectedSet.isNotEmpty())
             {
-               //Log.d(tagg, "Items selected to delete ${viadapter.selectedSet.size}");
                (ctx as MainActivity).DeleteMultiWpoin(viadapter.selectedSet.toList())
             }
-               //
             (ctx as MainActivity).StopTextualMode();
             false;
          }
@@ -47,9 +45,7 @@ class KustextualCb(val ctx : Context, @MenuRes val menuId: Int, val viadapter: K
    
    override fun onDestroyActionMode(mode: ActionMode?)
    {
-      Log.d(tagg, "Action Mode is finished and destroyed");
       viadapter.GetTracker().clearSelection();
       viadapter.selectedSet.clear();
-      Log.d(tagg, "SelectedSet after clear -> ${viadapter.selectedSet.size}")
    }
 }

@@ -1,23 +1,16 @@
 package desoft.studio.webpoint
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.util.Patterns
 import android.view.*
 import android.widget.*
-import androidx.annotation.NonNull
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.selection.SelectionTracker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import desoft.studio.webpoint.data.Wpoint
-import desoft.studio.webpoint.data.WpointVM
-import desoft.studio.webpoint.listeners.KusTextChangedHandler
 
 private const val tagg = "KUS ADAPTER";
 
@@ -100,12 +93,7 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
         val deletebut: ImageButton;
         init
         {
-            
-            plugview = v.findViewById<TextView>(R.id.tv_itemNameView).apply {
-                setOnClickListener{
-                    Log.i(tagg, "Open the link");
-                }
-            }
+            plugview = v.findViewById<TextView>(R.id.tv_itemNameView);
             urlview = v.findViewById<TextView>(R.id.tv_urlview);
             openbut = v.findViewById<ImageButton>(R.id.open_button).apply {
                 setOnClickListener {
@@ -119,8 +107,6 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
             editbut = v.findViewById<ImageButton>(R.id.edit_button).apply {
                 isEnabled = true;
                 setOnClickListener{
-                    Log.i(tagg, "Edit button is clicked");
-                    
                     // pop up the add item dialog
                     val v = LayoutInflater.from(ctx).inflate(R.layout.frag_update_layout, null);
                     val point = dataSet[absoluteAdapterPosition];
@@ -154,8 +140,6 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
                             cancel.setOnClickListener(){
                                 disfrag.dismiss();
                             }
-                            
-                            
                         }
                     })
                     var ft = (ctx as MainActivity).supportFragmentManager.beginTransaction();
@@ -165,43 +149,11 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
                         ft.remove(prev);
                     }
                     disfrag.show((ctx as MainActivity).supportFragmentManager, KusDiaFrag.tagg)
-                    //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    //ft.add(android.R.id.content, disfrag).addToBackStack(null).commit();
-                    /*val nameinput : EditText = v.findViewById(R.id.frag_update_name);
-                    nameinput.text = SpannableStringBuilder(point.Name);
-                    val urlinput : EditText = v.findViewById(R.id.frag_update_url);
-                    urlinput.text = SpannableStringBuilder(point.Url);*/
-                    /*MaterialAlertDialogBuilder(ctx!!)
-                        .setView(v)
-                        .setCancelable(true)
-                        .setPositiveButton("Update"){
-                            dialog, _ ->
-                            if(nameinput.text.toString().isNotBlank() && urlinput.text.toString().isNotBlank() && Patterns.WEB_URL.matcher(urlinput.text.toString()).matches())
-                            {
-                                var updatepoint = Wpoint(nameinput.text.toString().uppercase(),urlinput.text.toString() );
-                                if(dataSet.indexOfFirst { it.Name.contains(nameinput.text)} != -1) // find the duplicate key
-                                {
-                                    (ctx as MainActivity).AddPointNDelete(false, 0, updatepoint);
-                                }
-                                else { // the new point not existed
-                                    (ctx as MainActivity).AddPointNDelete(true, absoluteAdapterPosition, updatepoint);
-                                }
-                                Toast.makeText(ctx, "Successfully update the item", Toast.LENGTH_SHORT).show();
-                            } else
-                            {
-                                Snackbar.make(this, "Please Enter Valid Name and Url!", Snackbar.LENGTH_SHORT).setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE).show();
-                            }
-                            dialog.dismiss();
-                        }
-                        .setNegativeButton("Cancel"){
-                            dialog,_ -> dialog.dismiss();
-                        }.create().show();*/
                 }
             }
             deletebut = v.findViewById<ImageButton>(R.id.delete_button).apply {
                 isEnabled = true;
                 setOnClickListener{
-                    Log.i(tagg, "Delete button is clicked");
                     MaterialAlertDialogBuilder(ctx!!).setTitle("Delete")
                         .setMessage("Are you sure deleting this item?")
                         .setPositiveButton("Yes"){
@@ -215,20 +167,14 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
                         }.setCancelable(true).create().show();
                 }
             }
-            /**
-             * u don't need this cuz, u will implement click on SelectionTracker.Builder
-             * v.setOnClickListener(View.OnClickListener(){
-            Log.d(tag, "Getting click on adapter position $absoluteAdapterPosition and item id ${getItemId(absoluteAdapterPosition)}");
-             */
-            
         }
         
         fun BindData(dat: Wpoint, isActivated: Boolean = false)
-        { //Log.i(tag, "Bind view holder is called inside Bind data and item is selected $isActivated");
+        {
             var itemName  = dat.Name.lowercase();
             var words = itemName.split(" ");
             var ditedname = words.joinToString (separator = " "){word -> word.replaceFirstChar { it.uppercaseChar() }}
-            plugview.text = "${ditedname}"; // itemView == v aka View
+            plugview.text = "${ditedname}";
             urlview.text = "${dat.Url}";
             itemView.isActivated = isActivated;
         }
@@ -239,10 +185,6 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
         }
     }
     
-    // Selection Observer
-    // this class hold methods which will be executed from tracker.
-    // to get info about the selection or items, you need to use the tracker that u call "addObserver"
-    // aka reference to outter tracker
     inner class KusSelectionObserver(track: SelectionTracker<String>) :
           SelectionTracker.SelectionObserver<String>()
     {
@@ -252,7 +194,6 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
             
             if (tracker?.selection?.size() == 1 && !isActionMode)
             {
-                Log.i(tagg, "Observer : onItemStateChanged- $key is selected $selected - multi-selection started - one item selected so starting contextual mode");
                 (ctx as MainActivity).StartTextualMode();
             }
             else if (tracker?.selection?.size() == 0 && isActionMode)
@@ -264,19 +205,16 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
 
         override fun onSelectionChanged()
         {
-            Log.i(tagg, "Observer : onSelectionChanged ${tracker?.selection.toString()}");
             // getting key from this selection
             if(tracker?.hasSelection() == true)
             {
                 var tracsiz = tracker?.selection?.size();
-                Log.i(tagg, "Observer : onSelectionChanged - tracker size ${tracsiz}");
                 var traciter = tracker?.selection?.iterator();
                 var temp  = mutableSetOf<Wpoint>();
                 if (tracsiz != null)
                 {
                     while(tracsiz >0 )
                     {
-                        
                         var naky = traciter?.next();
                         var pos = GetAdapterData().indexOfFirst { it.Name == naky };
                         temp.add(GetAdapterData()[pos]);
@@ -291,50 +229,12 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
 
         override fun onSelectionRefresh()
         {
-            Log.i(tagg, "Selection Observer; on Selection REFRESH");
             super.onSelectionRefresh()
         }
     
         override fun onSelectionRestored()
         {
-            Log.d(tagg, "Selection Observer; on Selection RESTORE");
             super.onSelectionRestored()
-        }
-        
-    }
-
-    
-
-    /**
-     * Implement Item Touch Listener for view
-     */
-    // this will delegate the event to child using the boundary of touch
-    // we can do this for textview too
-    fun KusItemClickHandler(recy: RecyclerView, @NonNull e: MotionEvent)
-    {
-        val cv: View? = recy.findChildViewUnder(e.x, e.y);
-        Log.d(tagg, "Childview clicked coor ${e.x} - ${e.y}- index -> ${recy.indexOfChild(cv!!)}");
-        val delegateArea = Rect();
-        val editbutt : ImageButton = cv.findViewById<ImageButton>(R.id.edit_button).apply{
-            isEnabled = true;
-            setOnClickListener{
-                Log.i(tagg, "Edit button is clicked");
-            }
-            getHitRect(delegateArea);
-        }
-        val delebutt : ImageButton = cv.findViewById<ImageButton>(R.id.delete_button).apply{
-            isEnabled = true;
-            setOnClickListener{
-                Log.i(tagg, "Delete button is clicked");
-            }
-            getHitRect(delegateArea);
-        }
-        delegateArea.top += 10;
-        delegateArea.bottom += 10;
-        //(editbutt.parent as? View)?.apply {
-        cv.apply {
-            touchDelegate = TouchDelegate(delegateArea, delebutt);
-            touchDelegate = TouchDelegate(delegateArea, editbutt);
         }
     }
 }

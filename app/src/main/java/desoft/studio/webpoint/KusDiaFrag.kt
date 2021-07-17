@@ -23,18 +23,13 @@ class KusDiaFrag(var viewid : Int) : DialogFragment()
    fun SetViewHandler(insetup : SetupView){
       viewsetup = insetup;
    }
-   
-   
-   
    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog
    {
       return super.onCreateDialog(savedInstanceState)
    }
-   
    override fun onCreate(savedInstanceState: Bundle?)
    {
       super.onCreate(savedInstanceState);
-      
    }
    
    override fun onStart()
@@ -62,12 +57,7 @@ class KusDiaFrag(var viewid : Int) : DialogFragment()
       super.onConfigurationChanged(newConfig)
       dialog!!.window?.setLayout((resources.displayMetrics.widthPixels), ViewGroup.LayoutParams.WRAP_CONTENT);
    }
-   
-   init
-   {
-   
-   }
-   
+
    companion object{
       const val tagg = "Kus Dialog Fragment";
    }

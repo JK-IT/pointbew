@@ -23,19 +23,6 @@ import desoft.studio.webpoint.data.WpointVM
 
 import java.lang.Exception
 import java.util.*
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-private const val tagg = "ADD POINT FRAGMENT";
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddWebPointFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
 class AddWebPointFragment() :Fragment()
 {
    // TODO: Rename and change types of parameters
@@ -44,7 +31,6 @@ class AddWebPointFragment() :Fragment()
    
    /*-------------------------------------------*/
    
-   
    private var addButt: Button? = null;
    private var cancelButt: Button? = null;
    private val vmodel : WpointVM by activityViewModels();
@@ -52,10 +38,6 @@ class AddWebPointFragment() :Fragment()
    override fun onCreate(savedInstanceState: Bundle?)
    {
       super.onCreate(savedInstanceState)
-      arguments?.let {
-         param1 = it.getString(ARG_PARAM1)
-         param2 = it.getString(ARG_PARAM2)
-      }
    }
    override fun onCreateView(
       inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +48,6 @@ class AddWebPointFragment() :Fragment()
       return inflater.inflate(R.layout.frag_add_new_webpoint, container, false)
    }
    
-
    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
    {
       super.onViewCreated(view, savedInstanceState);
@@ -84,7 +65,6 @@ class AddWebPointFragment() :Fragment()
       nameinput.addTextChangedListener(afterTextChanged = {
          if(nameinput.text.toString().isBlank())
          {
-            //todo: add more validation here
             if(addButt!!.isEnabled)  addButt?.isEnabled =false;
             nameinput.error = "Invalid name";
          } else {
@@ -118,8 +98,6 @@ class AddWebPointFragment() :Fragment()
       addButt!!.setOnClickListener {
          try
          {
-            /*val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager;
-            imm.hideSoftInputFromWindow(v.windowToken,0 )*/
             val point = Wpoint(nameinput.text.toString().uppercase(), urlinput.text.toString());
             vmodel.AddPoint(point);
             parentFragmentManager.popBackStack();
@@ -132,32 +110,15 @@ class AddWebPointFragment() :Fragment()
       }
       
       cancelButt!!.setOnClickListener{
-         /*val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
-         imm.hideSoftInputFromWindow(v.windowToken,0 )*/
          parentFragmentManager.popBackStack();
       }
    }
    
    companion object
    {
-      /**
-       * Use this factory method to create a new instance of
-       * this fragment using the provided parameters.
-       *
-       * @param param1 Parameter 1.
-       * @param param2 Parameter 2.
-       * @return A new instance of fragment AddWebPointFrag.
-       */
-      // TODO: Rename and change types and number of parameters
       @JvmStatic
       fun newInstance() =
-         AddWebPointFragment()
-            /*.apply {
-            arguments = Bundle().apply {
-               putString(ARG_PARAM1, param1)
-               putString(ARG_PARAM2, param2)
-            }*/
-         
+         AddWebPointFragment();
    }
    
    

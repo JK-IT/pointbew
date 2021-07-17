@@ -21,7 +21,6 @@
     </style>
 
     <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-
         <item name="cornerRadius">25dp</item>
         <item name="cornerSize">16dp</item>
     </style>

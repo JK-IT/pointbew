@@ -9,8 +9,6 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "webpoint_table")//, primaryKeys = arrayOf("id", "Name"))
 data class Wpoint
 (
-      //@PrimaryKey(autoGenerate = true)
-      //val id: Int,
       @PrimaryKey
       val Name: String,
       val Url: String

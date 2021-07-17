@@ -11,8 +11,6 @@ abstract class WpointDatabase : RoomDatabase()
 {
    
    abstract val WpointDao : Webpoint_Dao
-   
-   
    companion object
    {
       @Volatile
@@ -26,7 +24,6 @@ abstract class WpointDatabase : RoomDatabase()
             var instance = _ins;
             if(instance == null) {
                instance = Room.databaseBuilder(ctx.applicationContext, WpointDatabase::class.java,"webpoint_db").fallbackToDestructiveMigrationFrom(1, 2 , 3).build();
-               
                _ins   = instance;
             }
             return instance;

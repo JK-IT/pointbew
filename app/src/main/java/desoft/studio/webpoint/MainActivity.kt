@@ -3,7 +3,6 @@ package desoft.studio.webpoint
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -39,12 +38,9 @@ class MainActivity : AppCompatActivity() {
    private val isActionModeWatcher = Observer<Boolean>{ value ->
       if(!value)
       {
-         Log.d(tagg, "isActionmode Watcher is called");
          if (actMode != null) actMode = null;
       }
    }
-
-   //----------------------- Activity Methods starting here
    
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
@@ -65,7 +61,6 @@ class MainActivity : AppCompatActivity() {
       
       WpointFactory.ReadAll.observe(this, Observer {
          kusdapter?.SetData(it);
-         Log.d(tagg, "Livedata Observer - size of adapter ${kusdapter?.GetAdapterData()?.size}")
          if(kusdapter?.GetAdapterData()?.isNotEmpty() == true)
          {
            intoview.visibility = View.GONE;
@@ -78,7 +73,6 @@ class MainActivity : AppCompatActivity() {
       SetupRecyView(recyview);
       if(savedInstanceState != null)
       {
-         // restore selection here
          tracker?.onRestoreInstanceState(savedInstanceState);
       }
       SetupFloatButt()
@@ -94,9 +88,6 @@ class MainActivity : AppCompatActivity() {
    {
       super.onBackPressed()
    }
-
-   // ------------------------- MY METHODS -----------------------------
-   
    // Setup recyclerview and data
    fun SetupRecyView(recy:RecyclerView)
    {
@@ -107,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             "MainFragPointList", recy, KusItemKeyTeller(kusdapter!!), KusItemLookup(recy), StorageStrategy.createStringStorage())
          .withSelectionPredicate(SelectionPredicates.createSelectAnything())
          .withOnItemActivatedListener{ item, e ->
-            Log.d(tagg, "Item selected ${item.position} , key ${item.selectionKey}");
             false;// set this false so event will not stop here, true = event will be stopped here, aka consumed
          }
          .build();
@@ -119,8 +109,7 @@ class MainActivity : AppCompatActivity() {
    private fun SetupFloatButt()
    {
       val fbutt : FloatingActionButton =findViewById(R.id.mainFab);
-      fbutt.setOnClickListener { //Snackbar.make(it, "sup", Snackbar.LENGTH_LONG) .setAction("Action", null).show();
-   
+      fbutt.setOnClickListener {
          fragMan?.commit {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             setReorderingAllowed(true);
@@ -129,7 +118,6 @@ class MainActivity : AppCompatActivity() {
          }
       }
    }
-   
    // call start action mode
    fun StartTextualMode()
    {
@@ -154,14 +142,12 @@ class MainActivity : AppCompatActivity() {
    
    fun DeleteWpoin(wp : Wpoint)
    {
-      Toast.makeText(applicationContext, "Delete is called ${wp.Name} - ${wp.Url}", Toast.LENGTH_SHORT).show();
       WpointFactory.DeletePoint(wp);
       kusdapter?.notifyDataSetChanged();
    }
    
    fun AddPointNDelete(delee: Boolean, oldpos:Int, item: Wpoint)
    {
-      Log.i(tagg, "Calling add and deleting $delee")
       if(delee)
       {
          var oldPoint = kusdapter?.GetAdapterData()?.get(oldpos);
@@ -173,41 +159,4 @@ class MainActivity : AppCompatActivity() {
       }
       kusdapter?.notifyDataSetChanged();
    }
-   
 }
-
-
-/**
-      All code for getting button and implement intent
-
-      val smabutt = findViewById<Button>(R.id.sell_myapp);
-      smabutt.setOnClickListener {
-      val inte = Intent(this, WebPages::class.java);
-      inte.putExtra("urltoopen", getString(R.string.sellmyapp_url));
-      inte.putExtra("urlname", getString(R.string.sell_myapp));
-      startActivity(inte);
-      }
- */
-
-/**
-.withOnItemActivatedListener { item, e ->
-//Log.d(tagg, "Item selected ${item.position} , key ${item.selectionKey}");
-val cv: View? = recy.findChildViewUnder(e.x, e.y);
-Log.d(tagg, "Childview clicked coor ${e.x} - ${e.y}- index -> ${recy.indexOfChild(cv!!)}");
-val delegateArea = Rect();
-val editbutt : ImageButton = cv.findViewById<ImageButton>(R.id.edit_button).apply{
-isEnabled = true;
-setOnClickListener{
-Log.d(tagg, "Edit button is clicked");
-}
-getHitRect(delegateArea);
-}
-delegateArea.top += 100;
-delegateArea.bottom += 100;
-Log.d(tagg, "delegateArea ${delegateArea.width()}- ${delegateArea.height()}, editbutton width ${editbutt.width} - ${editbutt.height}, parent width ${cv.width} - ${cv.height}");
-(editbutt.parent as? View)?.apply {
-touchDelegate = TouchDelegate(delegateArea, editbutt);
-}
-true;
-}
-      */
