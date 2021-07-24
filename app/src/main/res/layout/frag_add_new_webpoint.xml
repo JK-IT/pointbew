@@ -32,22 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/frag_add_NameInput"
         />
-    <!--     <TextView
-            android:id="@+id/frag_add_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:textSize="18sp"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="10dp"
-            android:paddingHorizontal="10dp"
-            android:text="Website Name: "
-            android:textColor="@color/miniTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/frag_add_NameInput"
-            />-->
-
         <EditText
             android:id="@+id/frag_add_NameInput"
             android:focusable="true"
@@ -69,22 +53,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/addFrag_guideline" />
-
- <!--       <TextView
-            android:id="@+id/frag_add_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textSize="18sp"
-            android:minHeight="40dp"
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="10dp"
-            android:text="Website Url "
-            android:textColor="@color/miniTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addFrag_guideline"
-            /> -->
 
         <EditText
             android:id="@+id/frag_add_urlInput"

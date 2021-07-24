@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<!--    <TextView
-        android:id="@+id/main_empty_data_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:text="Start Adding Your Favorite Website Here"
-        android:paddingHorizontal="20dp"
-        android:textSize="25sp"
-        android:gravity="center_vertical|center_horizontal"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>-->
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_coorLayout"
         android:fitsSystemWindows="true"
@@ -77,7 +63,7 @@
             android:focusable="true"
             android:src="@drawable/ic_baseline_add_24"
             android:layout_gravity="bottom|end"
-            app:layout_behavior=".KusFabBehaviour"
+            app:layout_behavior="desoft.studio.webpoint.KusFabBehaviour"
             app:tint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -85,7 +71,7 @@
     <com.google.android.gms.ads.AdView
         android:id="@+id/main_adview"
         app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3254181174406329~3007920370"
+        app:adUnitId="ca-app-pub-3254181174406329/7698840399"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

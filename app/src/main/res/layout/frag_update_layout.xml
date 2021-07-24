@@ -61,8 +61,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/frag_update_button"
         android:clickable="true"
