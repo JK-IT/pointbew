@@ -1,15 +1,14 @@
 package desoft.studio.webpoint
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Insets
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,9 +19,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.commit
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -41,6 +37,8 @@ class WebPagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_web_view)
+        //set show ads
+        MainActivity.showInter = true;
         spinner = findViewById(R.id.spin_bar);
         MobileAds.initialize(this);
         var adquest = AdRequest.Builder().build();
@@ -54,6 +52,7 @@ class WebPagesActivity : AppCompatActivity() {
         // actbar !! : this means if not null
         actbar?.title = intent.getStringExtra(webName);
         actbar?.setDisplayHomeAsUpEnabled(true);
+        actbar?.setDisplayShowHomeEnabled(true);
 
         //set up webview
         webv = findViewById<WebView>(R.id.webview);
@@ -118,6 +117,18 @@ class WebPagesActivity : AppCompatActivity() {
                {
                    webv?.reload();
                }
+           }
+           R.id.webview_menu_open_browser->{
+               var urluri : Uri = Uri.parse(webv?.url);
+               if(urluri != null)
+               {
+                   startActivity(Intent(Intent.ACTION_VIEW, urluri));
+               }
+           }
+           android.R.id.home->{
+               Log.d(tagg, "Home Button is clicked");
+               finish();
+               return true;
            }
        }
        return super.onOptionsItemSelected(item);
@@ -218,7 +229,8 @@ class WebPagesActivity : AppCompatActivity() {
     
         override fun onShowCustomView(paview: View?, callback: CustomViewCallback?)
         {
-            super.onShowCustomView(paview, callback)
+            super.onShowCustomView(paview, callback);
+            Log.i(tagg, "Showing custom view");
             if(customView!= null)
             {
                 Log.e(tagg, "the customview is null the secondtime");
@@ -242,7 +254,8 @@ class WebPagesActivity : AppCompatActivity() {
     
         override fun onHideCustomView()
         {
-            super.onHideCustomView()
+
+            Log.i(tagg, "Hiding custom view");
             (this@WebPagesActivity.window.decorView as FrameLayout).removeView(customView);
             customView = null;
             this@WebPagesActivity.window.decorView.systemUiVisibility = oriSysUIVisibility!!;
@@ -250,6 +263,7 @@ class WebPagesActivity : AppCompatActivity() {
             //fullOrient= android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
             customViewCback?.onCustomViewHidden();
             customViewCback = null;
+            super.onHideCustomView();
         }
         
     }

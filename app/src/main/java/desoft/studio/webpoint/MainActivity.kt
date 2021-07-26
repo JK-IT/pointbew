@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import desoft.studio.webpoint.data.Wpoint
 import desoft.studio.webpoint.data.WpointVM
+import desoft.studio.webpoint.fragments.AddWebPointFragment
 
 private const val tagg = "MAIN ACTIVITY";
 private const val actiStack = "Main Activity Stack";
@@ -35,7 +38,8 @@ class MainActivity : AppCompatActivity() {
    private var fragview: View? = null;
    private var actMode : ActionMode? = null;
    private lateinit var actModecb : KustextualCb;
-   
+   private var mInterAds : InterstitialAd? = null;
+
    private val isActionModeWatcher = Observer<Boolean>{ value ->
       if(!value)
       {
@@ -48,12 +52,23 @@ class MainActivity : AppCompatActivity() {
    
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
-      setContentView(R.layout.activity_main_old)
-      // set up the  google admob
+      setContentView(R.layout.activity_main_old);
+      // set up the  ad banner
       MobileAds.initialize(this);
       var adReq = AdRequest.Builder().build();
       var adview : com.google.android.gms.ads.AdView = findViewById(R.id.main_adview);
       adview.loadAd(adReq);
+      //set up interads
+      InterstitialAd.load(this, "ca-app-pub-3940256099942544/8691691433", adReq, object : InterstitialAdLoadCallback(){
+         override fun onAdLoaded(p0: InterstitialAd) {
+            mInterAds = p0;
+         }
+         override fun onAdFailedToLoad(p0: LoadAdError) {
+            Log.d(tagg, p0.message);
+            mInterAds = null;
+         }
+      })
+
       // init setup
       fragMan = supportFragmentManager;
       fragview = findViewById(R.id.main_fragContainerView);
@@ -61,7 +76,7 @@ class MainActivity : AppCompatActivity() {
       var intoview:TextView = findViewById(R.id.main_empty_data_view);
       var recyview : RecyclerView = findViewById(R.id.main_recyView);
       WpointFactory.isActionMode.observe(this, isActionModeWatcher);
-      kusdapter = KusAdapter(this);
+      kusdapter = KusAdapter(this, recyview);
       
       WpointFactory.ReadAll.observe(this, Observer {
          kusdapter?.SetData(it);
@@ -83,7 +98,18 @@ class MainActivity : AppCompatActivity() {
       }
       SetupFloatButt()
    }
-   
+
+   override fun onResume() {
+      super.onResume();
+      if(showInter)
+      {
+         Log.d(tagg, "Show Interads and mInterads is null ${mInterAds == null}")
+         mInterAds?.show(this);
+         showInter = false;
+      }
+
+   }
+
    override fun onSaveInstanceState(outState: Bundle)
    {
       super.onSaveInstanceState(outState)
@@ -172,6 +198,10 @@ class MainActivity : AppCompatActivity() {
          WpointFactory.AddPoint(item);
       }
       kusdapter?.notifyDataSetChanged();
+   }
+
+   companion object{
+      var showInter : Boolean = false;
    }
    
 }

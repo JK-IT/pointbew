@@ -1,10 +1,11 @@
-package desoft.studio.webpoint
+package desoft.studio.webpoint.fragments
 
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.transition.TransitionInflater
 import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import desoft.studio.webpoint.R
 import desoft.studio.webpoint.data.Wpoint
 import desoft.studio.webpoint.data.WpointVM
 
@@ -38,13 +40,8 @@ private const val tagg = "ADD POINT FRAGMENT";
 
 class AddWebPointFragment() :Fragment()
 {
-   // TODO: Rename and change types of parameters
-   private var param1: String? = null
-   private var param2: String? = null
-   
+
    /*-------------------------------------------*/
-   
-   
    private var addButt: Button? = null;
    private var cancelButt: Button? = null;
    private val vmodel : WpointVM by activityViewModels();
@@ -52,20 +49,15 @@ class AddWebPointFragment() :Fragment()
    override fun onCreate(savedInstanceState: Bundle?)
    {
       super.onCreate(savedInstanceState)
-      arguments?.let {
-         param1 = it.getString(ARG_PARAM1)
-         param2 = it.getString(ARG_PARAM2)
-      }
+      arguments?.let {      };
+      enterTransition = TransitionInflater.from(requireContext()).inflateTransition(R.transition.slide_right);
    }
-   override fun onCreateView(
-      inflater: LayoutInflater, container: ViewGroup?,
-      savedInstanceState: Bundle?
-   ): View?
+
+   override fun onCreateView(      inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
    {
       // Inflate the layout for this fragment
       return inflater.inflate(R.layout.frag_add_new_webpoint, container, false)
    }
-   
 
    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
    {

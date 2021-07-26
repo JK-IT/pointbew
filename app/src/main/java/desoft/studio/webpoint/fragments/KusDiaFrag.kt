@@ -1,24 +1,16 @@
-package desoft.studio.webpoint
+package desoft.studio.webpoint.fragments
 
 import android.app.Dialog
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import desoft.studio.webpoint.data.Wpoint
 
 class KusDiaFrag(var viewid : Int) : DialogFragment()
 {
-   private lateinit var viewsetup :SetupView;
+   private lateinit var viewsetup : SetupView;
    
    fun SetViewHandler(insetup : SetupView){
       viewsetup = insetup;

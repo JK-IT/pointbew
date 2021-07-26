@@ -62,6 +62,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_recyView"
+            android:layoutAnimation="@anim/recy_row_anim"
             android:clipToPadding="false"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:layout_width="match_parent"
@@ -77,7 +78,7 @@
             android:focusable="true"
             android:src="@drawable/ic_baseline_add_24"
             android:layout_gravity="bottom|end"
-            app:layout_behavior=".KusFabBehaviour"
+            app:layout_behavior="desoft.studio.webpoint.KusFabBehaviour"
             app:tint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -85,7 +86,7 @@
     <com.google.android.gms.ads.AdView
         android:id="@+id/main_adview"
         app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3254181174406329~3007920370"
+        app:adUnitId="ca-app-pub-3254181174406329/7698840399"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
