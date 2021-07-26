@@ -13,24 +13,10 @@ android {
     defaultConfig {
         applicationId "desoft.studio.webpoint"
         minSdkVersion 26
-<<<<<<< HEAD
-<<<<<<< pdro
-        targetSdkVersion 30
-<<<<<<< pdro
-        versionCode 3
-        versionName "3.0"
-=======
-=======
         targetSdkVersion 31
->>>>>>> 97260
+
         versionCode 5
         versionName "5.0"
->>>>>>> 97250
-=======
-        targetSdkVersion 31
-        versionCode 5
-        versionName "5.0"
->>>>>>> main
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions{
@@ -42,9 +28,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            debuggable false
-            jniDebuggable false
+            minifyEnabled true
+            debuggable true
+            jniDebuggable true
             applicationIdSuffix ".prod"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

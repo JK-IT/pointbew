@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/main_adview">
+        app:layout_constraintBottom_toTopOf="@id/webview_adview">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/wv_appbar"
@@ -58,9 +58,9 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/main_adview"
+        android:id="@+id/webview_adview"
         app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:adUnitId="ca-app-pub-3254181174406329/7698840399"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/webview_coor"

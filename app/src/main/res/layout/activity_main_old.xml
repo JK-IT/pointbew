@@ -11,7 +11,7 @@
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/main_adview"
+        app:layout_constraintBottom_toTopOf="@id/webview_adview"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -70,7 +70,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/main_adview"
+        android:id="@+id/webview_adview"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3254181174406329/7698840399"
         android:layout_width="match_parent"

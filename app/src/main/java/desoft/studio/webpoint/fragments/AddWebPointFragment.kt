@@ -29,10 +29,6 @@ class AddWebPointFragment() :Fragment()
 {
 
    /*-------------------------------------------*/
-<<<<<<< pdro:app/src/main/java/desoft/studio/webpoint/AddWebPointFragment.kt
-   
-=======
->>>>>>> 97250:app/src/main/java/desoft/studio/webpoint/fragments/AddWebPointFragment.kt
    private var addButt: Button? = null;
    private var cancelButt: Button? = null;
    private val vmodel : WpointVM by activityViewModels();
@@ -40,11 +36,8 @@ class AddWebPointFragment() :Fragment()
    override fun onCreate(savedInstanceState: Bundle?)
    {
       super.onCreate(savedInstanceState)
-<<<<<<< pdro:app/src/main/java/desoft/studio/webpoint/AddWebPointFragment.kt
-=======
       arguments?.let {      };
       enterTransition = TransitionInflater.from(requireContext()).inflateTransition(R.transition.slide_right);
->>>>>>> 97250:app/src/main/java/desoft/studio/webpoint/fragments/AddWebPointFragment.kt
    }
 
    override fun onCreateView(      inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -52,11 +45,7 @@ class AddWebPointFragment() :Fragment()
       // Inflate the layout for this fragment
       return inflater.inflate(R.layout.frag_add_new_webpoint, container, false)
    }
-<<<<<<< pdro:app/src/main/java/desoft/studio/webpoint/AddWebPointFragment.kt
-   
-=======
 
->>>>>>> 97250:app/src/main/java/desoft/studio/webpoint/fragments/AddWebPointFragment.kt
    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
    {
       super.onViewCreated(view, savedInstanceState);

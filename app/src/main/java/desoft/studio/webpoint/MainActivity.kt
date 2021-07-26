@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.*
@@ -52,15 +51,14 @@ class MainActivity : AppCompatActivity() {
       // set up the  ad banner
       MobileAds.initialize(this);
       var adReq = AdRequest.Builder().build();
-      var adview : com.google.android.gms.ads.AdView = findViewById(R.id.main_adview);
+      var adview : com.google.android.gms.ads.AdView = findViewById(R.id.webview_adview);
       adview.loadAd(adReq);
       //set up interads
-      InterstitialAd.load(this, "ca-app-pub-3940256099942544/8691691433", adReq, object : InterstitialAdLoadCallback(){
+      InterstitialAd.load(this, "ca-app-pub-3254181174406329/3766516003", adReq, object : InterstitialAdLoadCallback(){
          override fun onAdLoaded(p0: InterstitialAd) {
             mInterAds = p0;
          }
          override fun onAdFailedToLoad(p0: LoadAdError) {
-            Log.d(tagg, p0.message);
             mInterAds = null;
          }
       })
@@ -97,7 +95,6 @@ class MainActivity : AppCompatActivity() {
       super.onResume();
       if(showInter)
       {
-         Log.d(tagg, "Show Interads and mInterads is null ${mInterAds == null}")
          mInterAds?.show(this);
          showInter = false;
       }
@@ -185,52 +182,7 @@ class MainActivity : AppCompatActivity() {
       }
       kusdapter?.notifyDataSetChanged();
    }
-<<<<<<< HEAD
-<<<<<<< pdro
-}
-=======
-=======
->>>>>>> main
-
    companion object{
       var showInter : Boolean = false;
    }
-   
 }
-
-
-/**
-      All code for getting button and implement intent
-
-      val smabutt = findViewById<Button>(R.id.sell_myapp);
-      smabutt.setOnClickListener {
-      val inte = Intent(this, WebPages::class.java);
-      inte.putExtra("urltoopen", getString(R.string.sellmyapp_url));
-      inte.putExtra("urlname", getString(R.string.sell_myapp));
-      startActivity(inte);
-      }
- */
-
-/**
-.withOnItemActivatedListener { item, e ->
-//Log.d(tagg, "Item selected ${item.position} , key ${item.selectionKey}");
-val cv: View? = recy.findChildViewUnder(e.x, e.y);
-Log.d(tagg, "Childview clicked coor ${e.x} - ${e.y}- index -> ${recy.indexOfChild(cv!!)}");
-val delegateArea = Rect();
-val editbutt : ImageButton = cv.findViewById<ImageButton>(R.id.edit_button).apply{
-isEnabled = true;
-setOnClickListener{
-Log.d(tagg, "Edit button is clicked");
-}
-getHitRect(delegateArea);
-}
-delegateArea.top += 100;
-delegateArea.bottom += 100;
-Log.d(tagg, "delegateArea ${delegateArea.width()}- ${delegateArea.height()}, editbutton width ${editbutt.width} - ${editbutt.height}, parent width ${cv.width} - ${cv.height}");
-(editbutt.parent as? View)?.apply {
-touchDelegate = TouchDelegate(delegateArea, editbutt);
-}
-true;
-}
-      */
->>>>>>> 97250

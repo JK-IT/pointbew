@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.Insets
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -41,22 +40,15 @@ class WebPagesActivity : AppCompatActivity() {
         spinner = findViewById(R.id.spin_bar);
         MobileAds.initialize(this);
         var adquest = AdRequest.Builder().build();
-        var adview : com.google.android.gms.ads.AdView = findViewById(R.id.main_adview);
+        var adview : com.google.android.gms.ads.AdView = findViewById(R.id.webview_adview);
         adview.loadAd(adquest);
 
         setSupportActionBar(findViewById(R.id.wv_toolbar));
         val actbar = supportActionBar;
-        
+
         actbar?.title = intent.getStringExtra(webName);
         actbar?.setDisplayHomeAsUpEnabled(true);
-<<<<<<< HEAD
-<<<<<<< pdro
-=======
-=======
->>>>>>> main
         actbar?.setDisplayShowHomeEnabled(true);
-
->>>>>>> 97250
         //set up webview
         webv = findViewById<WebView>(R.id.webview);
         SetupWebview(webv!!);
@@ -118,7 +110,6 @@ class WebPagesActivity : AppCompatActivity() {
                }
            }
            android.R.id.home->{
-               Log.d(tagg, "Home Button is clicked");
                finish();
                return true;
            }
@@ -216,7 +207,6 @@ class WebPagesActivity : AppCompatActivity() {
         override fun onShowCustomView(paview: View?, callback: CustomViewCallback?)
         {
             super.onShowCustomView(paview, callback);
-            Log.i(tagg, "Showing custom view");
             if(customView!= null)
             {
                 onHideCustomView();
@@ -231,8 +221,6 @@ class WebPagesActivity : AppCompatActivity() {
     
         override fun onHideCustomView()
         {
-
-            Log.i(tagg, "Hiding custom view");
             (this@WebPagesActivity.window.decorView as FrameLayout).removeView(customView);
             customView = null;
             this@WebPagesActivity.window.decorView.systemUiVisibility = oriSysUIVisibility!!;

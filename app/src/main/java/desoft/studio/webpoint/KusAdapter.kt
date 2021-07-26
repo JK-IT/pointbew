@@ -6,26 +6,12 @@ import android.text.SpannableStringBuilder
 import android.util.Patterns
 import android.view.*
 import android.widget.*
-<<<<<<< pdro
-=======
-import androidx.annotation.NonNull
-<<<<<<< HEAD
->>>>>>> 97250
-=======
->>>>>>> main
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.selection.SelectionTracker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import desoft.studio.webpoint.data.Wpoint
-<<<<<<< HEAD
-<<<<<<< pdro
-=======
 import desoft.studio.webpoint.fragments.KusDiaFrag
->>>>>>> 97250
-=======
-import desoft.studio.webpoint.fragments.KusDiaFrag
->>>>>>> main
 
 private const val tagg = "KUS ADAPTER";
 
