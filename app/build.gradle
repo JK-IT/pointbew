@@ -13,6 +13,7 @@ android {
     defaultConfig {
         applicationId "desoft.studio.webpoint"
         minSdkVersion 26
+<<<<<<< HEAD
 <<<<<<< pdro
         targetSdkVersion 30
 <<<<<<< pdro
@@ -25,6 +26,11 @@ android {
         versionCode 5
         versionName "5.0"
 >>>>>>> 97250
+=======
+        targetSdkVersion 31
+        versionCode 5
+        versionName "5.0"
+>>>>>>> main
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions{

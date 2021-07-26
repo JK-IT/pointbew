@@ -185,9 +185,12 @@ class MainActivity : AppCompatActivity() {
       }
       kusdapter?.notifyDataSetChanged();
    }
+<<<<<<< HEAD
 <<<<<<< pdro
 }
 =======
+=======
+>>>>>>> main
 
    companion object{
       var showInter : Boolean = false;

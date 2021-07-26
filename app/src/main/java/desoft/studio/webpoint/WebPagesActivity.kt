@@ -49,8 +49,11 @@ class WebPagesActivity : AppCompatActivity() {
         
         actbar?.title = intent.getStringExtra(webName);
         actbar?.setDisplayHomeAsUpEnabled(true);
+<<<<<<< HEAD
 <<<<<<< pdro
 =======
+=======
+>>>>>>> main
         actbar?.setDisplayShowHomeEnabled(true);
 
 >>>>>>> 97250
