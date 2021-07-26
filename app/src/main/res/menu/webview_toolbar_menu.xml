@@ -7,4 +7,8 @@
         app:showAsAction="always"
         android:title="Refresh" />
 
+    <item android:id="@+id/webview_menu_open_browser"
+        android:icon="@drawable/ic_baseline_open_in_browser_white"
+        app:showAsAction="ifRoom"
+        android:title="Open in Browser"/>
 </menu>

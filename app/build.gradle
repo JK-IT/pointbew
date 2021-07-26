@@ -14,8 +14,13 @@ android {
         applicationId "desoft.studio.webpoint"
         minSdkVersion 26
         targetSdkVersion 30
+<<<<<<< pdro
         versionCode 3
         versionName "3.0"
+=======
+        versionCode 5
+        versionName "5.0"
+>>>>>>> 97250
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions{
@@ -111,4 +116,14 @@ dependencies {
 
     // google admod
     implementation "com.google.android.gms:play-services-ads:$ad_mod_ver"
+
+    // datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0-rc02"
+    // =RxJava2 support
+    implementation("androidx.datastore:datastore-preferences-rxjava2:1.0.0-rc02")
+    // =RxJava3 support
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0-rc02")
+    // coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 }

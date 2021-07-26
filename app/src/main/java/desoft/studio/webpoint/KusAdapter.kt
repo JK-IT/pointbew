@@ -6,15 +6,23 @@ import android.text.SpannableStringBuilder
 import android.util.Patterns
 import android.view.*
 import android.widget.*
+<<<<<<< pdro
+=======
+import androidx.annotation.NonNull
+>>>>>>> 97250
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.selection.SelectionTracker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import desoft.studio.webpoint.data.Wpoint
+<<<<<<< pdro
+=======
+import desoft.studio.webpoint.fragments.KusDiaFrag
+>>>>>>> 97250
 
 private const val tagg = "KUS ADAPTER";
 
-class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.ViewHolder>()
+class KusAdapter(private val ctx : Context, private var recy: RecyclerView) : RecyclerView.Adapter<KusAdapter.ViewHolder>()
 {
     
     //--------------- Things belong to Adapter
@@ -71,6 +79,7 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
     {
         this.dataSet = indata;
         notifyDataSetChanged();
+        recy.scheduleLayoutAnimation();
     }
     
     public fun GetAdapterData(): List<Wpoint>
@@ -143,7 +152,8 @@ class KusAdapter(private val ctx : Context) : RecyclerView.Adapter<KusAdapter.Vi
                         }
                     })
                     var ft = (ctx as MainActivity).supportFragmentManager.beginTransaction();
-                    var prev = (ctx as MainActivity).supportFragmentManager.findFragmentByTag(KusDiaFrag.tagg);
+                    var prev = (ctx as MainActivity).supportFragmentManager.findFragmentByTag(
+                        KusDiaFrag.tagg);
                     if(prev != null)
                     {
                         ft.remove(prev);

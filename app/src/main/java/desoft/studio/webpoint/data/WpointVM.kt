@@ -1,18 +1,17 @@
 package desoft.studio.webpoint.data
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.recyclerview.selection.Selection
+import desoft.studio.webpoint.sharedStore.KusAdsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WpointVM(appli: Application) : AndroidViewModel(appli)
 {
    private val repo:WpointRepo;
-   
+   private val adsrepo : KusAdsManager;
+
    val ReadAll: LiveData<List<Wpoint>>;
    
    var isActionMode: LiveData<Boolean>;
@@ -21,6 +20,7 @@ class WpointVM(appli: Application) : AndroidViewModel(appli)
    {
       val pointDao = WpointDatabase.GetDatabase(appli).WpointDao;
       repo = WpointRepo(pointDao);
+      adsrepo = KusAdsManager(appli);
       ReadAll = repo.ReadAll;
       isActionMode = MutableLiveData<Boolean>();
    }
@@ -39,4 +39,13 @@ class WpointVM(appli: Application) : AndroidViewModel(appli)
    {
       viewModelScope.launch (Dispatchers.Default) { repo.DeleteMulti(polist) };
    }
+
+   fun SetInterAds(value: Boolean)
+   {
+      viewModelScope.launch(Dispatchers.Default) {
+         adsrepo.SetInterAds(value);
+      }
+   }
+
+   val ReadShowInterAds = adsrepo.showInterAds.asLiveData();
 }

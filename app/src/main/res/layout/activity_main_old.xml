@@ -48,6 +48,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_recyView"
+            android:layoutAnimation="@anim/recy_row_anim"
             android:clipToPadding="false"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:layout_width="match_parent"
