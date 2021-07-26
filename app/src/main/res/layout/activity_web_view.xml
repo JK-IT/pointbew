@@ -7,6 +7,7 @@
     tools:context=".WebPagesActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/webview_coor"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fitsSystemWindows="true"
@@ -51,7 +52,7 @@
             android:id="@+id/webview"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
              />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -59,9 +60,10 @@
     <com.google.android.gms.ads.AdView
         android:id="@+id/main_adview"
         app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3254181174406329/7698840399"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/webview_coor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

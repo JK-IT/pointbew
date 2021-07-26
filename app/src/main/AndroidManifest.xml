@@ -16,10 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WebPoint"
         android:usesCleartextTraffic="true">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3254181174406329~3007920370" />
+        <meta-data
+            android:name="android.webkit.WebView.MetricsOptOut"
+            android:value="true"/>
 
         <activity
             android:name=".SplashActi"
-            android:theme="@style/KusSplashTheme">
+            android:theme="@style/KusSplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +39,7 @@
             android:hardwareAccelerated="true"
             android:configChanges="orientation|screenLayout|screenSize|keyboardHidden|keyboard"
             android:windowSoftInputMode="adjustPan"
+            android:exported="false"
             >
         </activity>
 <!--            android:windowSoftInputMode="adjustResize|stateVisible">-->
@@ -40,11 +48,10 @@
             android:name=".WebPagesActivity"
             android:hardwareAccelerated="true"
             android:configChanges="keyboardHidden|screenLayout|screenSize|orientation"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:exported="false"/>
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3254181174406329~3007920370" />
+
     </application>
 
 </manifest>

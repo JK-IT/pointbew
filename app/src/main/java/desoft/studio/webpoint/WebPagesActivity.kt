@@ -160,6 +160,7 @@ class WebPagesActivity : AppCompatActivity() {
         v.settings.javaScriptEnabled = true;
         v.settings.domStorageEnabled = true;
         v.settings.useWideViewPort = true;
+        v.settings.loadWithOverviewMode = true;
         v.webViewClient = MywebviewCli();
         v.webChromeClient = MyChromeCli();
     }
