@@ -7,17 +7,21 @@ plugins {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "desoft.studio.webpoint"
         minSdkVersion 26
+<<<<<<< pdro
         targetSdkVersion 30
 <<<<<<< pdro
         versionCode 3
         versionName "3.0"
 =======
+=======
+        targetSdkVersion 31
+>>>>>>> 97260
         versionCode 5
         versionName "5.0"
 >>>>>>> 97250
