@@ -13,7 +13,7 @@
     <string name="url_of_web">Website Url</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add_webpoint_frag_title">Add New Web Point</string>
+    <string name="add_webpoint_frag_title">New Web Address</string>
     <string name="menu_delete">Delele</string>
     <string name="no_connection">Opps!!! Something goes wrong, please check your connection</string>
 </resources>

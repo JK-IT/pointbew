@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/mainFrag">
+
+    <fragment
+        android:id="@+id/mainFrag"
+        android:name="desoft.studio.webpoint.fragments.MainFrag"
+        tools:layout="@layout/frag_main"
+        android:label="MainFrag" >
+        <action
+            android:id="@+id/action_mainFrag_to_addPointFrag"
+            app:destination="@id/addPointFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPointFrag"
+        android:name="desoft.studio.webpoint.fragments.AddPointFrag"
+        tools:layout="@layout/frag_add_new_webpoint"
+        android:label="AddPointFrag" >
+        <action
+            android:id="@+id/action_addPointFrag_to_mainFrag"
+            app:destination="@id/mainFrag" />
+    </fragment>
+</navigation>

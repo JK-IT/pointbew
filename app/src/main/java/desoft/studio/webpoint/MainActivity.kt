@@ -4,16 +4,17 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.view.ActionMode
-import androidx.fragment.app.*
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
@@ -22,16 +23,18 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import desoft.studio.webpoint.data.Wpoint
 import desoft.studio.webpoint.data.WpointVM
-import desoft.studio.webpoint.fragments.AddWebPointFragment
+import kotlinx.coroutines.launch
 
-private const val tagg = "MAIN ACTIVITY";
+
 private const val actiStack = "Main Activity Stack";
 
 class MainActivity : AppCompatActivity() {
-   
-   var fragMan : FragmentManager? = null;
+
+   private val TAG = "-wpoint- ==> MAIN ACTIVITY <==";
+   private lateinit var navtroller : NavController;
+
    var kusdapter: KusAdapter? = null;
-   private val WpointFactory : WpointVM by viewModels();
+   private val pointdb : WpointVM by viewModels();
    private var tracker: SelectionTracker<String>? = null;
    private var fragview: View? = null;
    private var actMode : ActionMode? = null;
@@ -47,13 +50,18 @@ class MainActivity : AppCompatActivity() {
    
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
-      setContentView(R.layout.activity_main_old);
-      // set up the  ad banner
+      setContentView(R.layout.activity_main);
+      lifecycleScope.launch{
+         pointdb.ReadPoints();
+         //. set up navigation graph
+         navtroller = (supportFragmentManager.findFragmentById(R.id.main_nav_host) as NavHostFragment).navController;
+      }
+      //. set up the  ad banner
       MobileAds.initialize(this);
       var adReq = AdRequest.Builder().build();
       var adview : com.google.android.gms.ads.AdView = findViewById(R.id.webview_adview);
       adview.loadAd(adReq);
-      //set up interads
+      //. set up interads
       InterstitialAd.load(this, "ca-app-pub-3254181174406329/3766516003", adReq, object : InterstitialAdLoadCallback(){
          override fun onAdLoaded(p0: InterstitialAd) {
             mInterAds = p0;
@@ -64,8 +72,8 @@ class MainActivity : AppCompatActivity() {
       })
 
       // init setup
-      fragMan = supportFragmentManager;
-      fragview = findViewById(R.id.main_fragContainerView);
+      /*fragMan = supportFragmentManager;
+      //fragview = findViewById(R.id.main_fragContainerView);
       setSupportActionBar(findViewById(R.id.main_toolbar));
       var intoview:TextView = findViewById(R.id.main_empty_data_view);
       var recyview : RecyclerView = findViewById(R.id.main_recyView);
@@ -88,7 +96,7 @@ class MainActivity : AppCompatActivity() {
       {
          tracker?.onRestoreInstanceState(savedInstanceState);
       }
-      SetupFloatButt()
+      SetupFloatButt()*/
    }
 
    override fun onResume() {
@@ -101,11 +109,11 @@ class MainActivity : AppCompatActivity() {
 
    }
 
-   override fun onSaveInstanceState(outState: Bundle)
+   /*override fun onSaveInstanceState(outState: Bundle)
    {
       super.onSaveInstanceState(outState)
       tracker?.onSaveInstanceState(outState);
-   }
+   }*/
    
    override fun onBackPressed()
    {
@@ -131,14 +139,14 @@ class MainActivity : AppCompatActivity() {
    @SuppressLint("InflateParams")
    private fun SetupFloatButt()
    {
-      val fbutt : FloatingActionButton =findViewById(R.id.mainFab);
+      val fbutt : FloatingActionButton =findViewById(R.id.frag_main_fab);
       fbutt.setOnClickListener {
-         fragMan?.commit {
+         /*fragMan?.commit {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             setReorderingAllowed(true);
-            add<AddWebPointFragment>(R.id.main_fragContainerView);
+            add<AddPointFrag>(R.id.main_fragContainerView);
             addToBackStack(actiStack); // this will handle back button press to pop off fragment
-         }
+         }*/
       }
    }
    // call start action mode
@@ -159,13 +167,7 @@ class MainActivity : AppCompatActivity() {
    
    fun DeleteMultiWpoin(items : List<Wpoint>)
    {
-      WpointFactory.DeleteMulti(items);
-      kusdapter?.notifyDataSetChanged();
-   }
-   
-   fun DeleteWpoin(wp : Wpoint)
-   {
-      WpointFactory.DeletePoint(wp);
+      pointdb.DeleteMulti(items);
       kusdapter?.notifyDataSetChanged();
    }
    
@@ -174,11 +176,11 @@ class MainActivity : AppCompatActivity() {
       if(delee)
       {
          var oldPoint = kusdapter?.GetAdapterData()?.get(oldpos);
-         WpointFactory.DeletePoint(oldPoint!!);
-         WpointFactory.AddPoint(item);
+         pointdb.DeletePoint(oldPoint!!);
+         pointdb.AddPoint(item);
       } else
       {
-         WpointFactory.AddPoint(item);
+         pointdb.AddPoint(item);
       }
       kusdapter?.notifyDataSetChanged();
    }

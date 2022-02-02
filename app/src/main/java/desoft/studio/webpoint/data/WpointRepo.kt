@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 
 class WpointRepo(private val dao: Webpoint_Dao)
 {
-   val ReadAll : LiveData<List<Wpoint>> = dao.ReadAll();
-   
+
+   suspend fun ReadAll() : List<Wpoint> {
+      return dao.ReadAll();
+   }
    suspend fun AddPoint(point:Wpoint)
    {
       dao.AddPoint(point);

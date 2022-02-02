@@ -1,13 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.WebPoint" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.WebPoint" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#D16014</item>
-        <item name="colorPrimaryVariant">#FF924A</item>
+        <item name="colorPrimary">#ff8a80</item>
+        <item name="colorPrimaryVariant">#c85a54</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#1BBCD1</item>
-        <item name="colorSecondaryVariant">#007585</item>
+        <item name="colorSecondary">#ffc798</item>
+        <item name="colorSecondaryVariant">#ca966a</item>
         <item name="colorOnSecondary">#FFFFFF</item>
 
         <!-- Status bar color. -->
@@ -25,8 +25,9 @@
         <!-- font family -->
         <item name="android:fontFamily">@font/montserratregular</item>
         <item name="android:typeface">sans</item>
-
-
+        <!--disable status bar-->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
 

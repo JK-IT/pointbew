@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/white_round_corner.xml" value="0.2645" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_main.xml" value="0.3967391304347826" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_main_old.xml" value="0.2609375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_web_view.xml" value="0.2609375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_add_new_webpoint.xml" value="0.2609375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_main.xml" value="0.2609375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_update_layout.xml" value="0.2609375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/recyview_item_layout.xml" value="0.3984375" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

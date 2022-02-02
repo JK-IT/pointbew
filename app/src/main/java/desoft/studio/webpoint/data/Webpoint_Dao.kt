@@ -19,7 +19,7 @@ interface Webpoint_Dao
    suspend fun AddPoint(point : Wpoint); // suspend -> to use coroutine
    
    @Query("SELECT * FROM webpoint_table ORDER BY Name COLLATE NOCASE ASC")
-   fun ReadAll() : LiveData<List<Wpoint>>
+   suspend fun ReadAll() :List<Wpoint>
    
    @Query("SELECT * FROM webpoint_table WHERE Name LIKE :inname")
    fun ReadItem(inname: String) : Wpoint
