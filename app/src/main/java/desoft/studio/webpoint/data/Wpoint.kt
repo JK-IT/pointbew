@@ -12,5 +12,12 @@ data class Wpoint
       @PrimaryKey
       val Name: String,
       val Url: String
-      ) : Parcelable
+      ) : Parcelable, Comparable<Wpoint>
+{
+
+      override fun compareTo(other: Wpoint): Int {
+            return Name.compareTo(other.Name);
+      }
+
+}
    

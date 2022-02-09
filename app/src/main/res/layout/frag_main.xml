@@ -67,6 +67,7 @@
             app:layout_dodgeInsetEdges="bottom"
             app:layout_behavior="desoft.studio.webpoint.KusFabBehaviour"
             app:tint="@color/white" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

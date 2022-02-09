@@ -38,15 +38,7 @@ class MainActivity : AppCompatActivity() {
    private var tracker: SelectionTracker<String>? = null;
    private var fragview: View? = null;
    private var actMode : ActionMode? = null;
-   private lateinit var actModecb : KustextualCb;
    private var mInterAds : InterstitialAd? = null;
-
-   private val isActionModeWatcher = Observer<Boolean>{ value ->
-      if(!value)
-      {
-         if (actMode != null) actMode = null;
-      }
-   }
    
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
@@ -70,121 +62,13 @@ class MainActivity : AppCompatActivity() {
             mInterAds = null;
          }
       })
-
-      // init setup
-      /*fragMan = supportFragmentManager;
-      //fragview = findViewById(R.id.main_fragContainerView);
-      setSupportActionBar(findViewById(R.id.main_toolbar));
-      var intoview:TextView = findViewById(R.id.main_empty_data_view);
-      var recyview : RecyclerView = findViewById(R.id.main_recyView);
-      WpointFactory.isActionMode.observe(this, isActionModeWatcher);
-      kusdapter = KusAdapter(this, recyview);
-      
-      WpointFactory.ReadAll.observe(this, Observer {
-         kusdapter?.SetData(it);
-         if(kusdapter?.GetAdapterData()?.isNotEmpty() == true)
-         {
-           intoview.visibility = View.GONE;
-            recyview.visibility = View.VISIBLE;
-         } else {
-           intoview.visibility = View.VISIBLE;
-            recyview.visibility = View.GONE;
-         }
-      })
-      SetupRecyView(recyview);
-      if(savedInstanceState != null)
-      {
-         tracker?.onRestoreInstanceState(savedInstanceState);
-      }
-      SetupFloatButt()*/
    }
 
    override fun onResume() {
       super.onResume();
-      if(showInter)
-      {
-         mInterAds?.show(this);
-         showInter = false;
-      }
-
    }
-
-   /*override fun onSaveInstanceState(outState: Bundle)
-   {
-      super.onSaveInstanceState(outState)
-      tracker?.onSaveInstanceState(outState);
-   }*/
-   
    override fun onBackPressed()
    {
       super.onBackPressed()
-   }
-   // Setup recyclerview and data
-   fun SetupRecyView(recy:RecyclerView)
-   {
-      recy.layoutManager = GridLayoutManager(applicationContext, 1);
-      recy.adapter = kusdapter;
-      // selection tracker
-      tracker = SelectionTracker.Builder<String>(
-            "MainFragPointList", recy, KusItemKeyTeller(kusdapter!!), KusItemLookup(recy), StorageStrategy.createStringStorage())
-         .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-         .withOnItemActivatedListener{ item, e ->
-            false;// set this false so event will not stop here, true = event will be stopped here, aka consumed
-         }
-         .build();
-      kusdapter!!.SetTracker(tracker!!);
-      actModecb = KustextualCb(this, R.menu.main_actbar_menu, kusdapter!!);
-   }
-   
-   @SuppressLint("InflateParams")
-   private fun SetupFloatButt()
-   {
-      val fbutt : FloatingActionButton =findViewById(R.id.frag_main_fab);
-      fbutt.setOnClickListener {
-         /*fragMan?.commit {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            setReorderingAllowed(true);
-            add<AddPointFrag>(R.id.main_fragContainerView);
-            addToBackStack(actiStack); // this will handle back button press to pop off fragment
-         }*/
-      }
-   }
-   // call start action mode
-   fun StartTextualMode()
-   {
-      if(actMode == null){
-         actMode =  startSupportActionMode(actModecb);
-         kusdapter?.SetActModeState(true);
-      }
-   }
-   
-   fun StopTextualMode()
-   {
-      actMode?.finish();
-      actMode = null;
-      kusdapter?.SetActModeState(false);
-   }
-   
-   fun DeleteMultiWpoin(items : List<Wpoint>)
-   {
-      pointdb.DeleteMulti(items);
-      kusdapter?.notifyDataSetChanged();
-   }
-   
-   fun AddPointNDelete(delee: Boolean, oldpos:Int, item: Wpoint)
-   {
-      if(delee)
-      {
-         var oldPoint = kusdapter?.GetAdapterData()?.get(oldpos);
-         pointdb.DeletePoint(oldPoint!!);
-         pointdb.AddPoint(item);
-      } else
-      {
-         pointdb.AddPoint(item);
-      }
-      kusdapter?.notifyDataSetChanged();
-   }
-   companion object{
-      var showInter : Boolean = false;
    }
 }

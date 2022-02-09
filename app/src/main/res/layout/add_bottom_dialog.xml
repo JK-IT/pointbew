@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    app:behavior_hideable="true"
+    android:paddingVertical="20dp"
+    android:paddingHorizontal="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/up_rounded_corner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/frag_add_title"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:text="@string/add_webpoint_frag_title"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:typeface="sans"
+            android:textStyle="bold"
+            android:background="@drawable/round_corner"
+            android:backgroundTint="?attr/colorPrimaryVariant"
+            android:layout_marginVertical="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_dia_name_lout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true"
+            android:hint="Web Name"
+            android:paddingHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_dia_name"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_dia_url_lout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:paddingHorizontal="10dp"
+            app:errorEnabled="true"
+            android:hint="Web Address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_dia_url"
+                android:inputType="textUri|text"
+                android:imeOptions="actionDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="end|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/add_dia_cancelbtn"
+                android:text="Cancel"
+                android:backgroundTint="#EC7788"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/add_dia_addbtn"
+                android:text="Add"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:backgroundTint="#598EEC"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

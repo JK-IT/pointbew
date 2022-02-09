@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -16,6 +18,9 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import desoft.studio.webpoint.KusAdapter
 import desoft.studio.webpoint.R
@@ -31,8 +36,9 @@ class MainFrag : Fragment()
 
     private lateinit var myBar : android.app.ActionBar;
     private var emptyPromt : TextView?= null;
-    private lateinit var recyview : RecyclerView;
+    private var recyview : RecyclerView?=null;
     private lateinit var recydapter : KusAdapter;
+
     /**
     * *                             onCreate
     */
@@ -50,6 +56,11 @@ class MainFrag : Fragment()
                     }
                 }
             })
+        }
+        childFragmentManager.setFragmentResultListener(AddPointDialogFrag.addPointKey, this) { key, bdl ->
+            var wpoi = bdl.get(AddPointDialogFrag.addBundleKey) as Wpoint;
+            Log.d(TAG, "Get Result by adding point $wpoi");
+            pointdb.AddPoint(wpoi);
         }
     }
     /**
@@ -70,9 +81,7 @@ class MainFrag : Fragment()
     override fun onViewCreated(v: View, savedInstanceState: Bundle?)
     {
         navtroller=v.findNavController();
-        (v.findViewById<FloatingActionButton>(R.id.frag_main_fab)).setOnClickListener{
-            navtroller.navigate(R.id.action_mainFrag_to_addPointFrag);
-        }
+
         (activity)?.setActionBar(v.findViewById(R.id.frag_main_toolbar))
         myBar = (activity)?.actionBar !!;
 
@@ -80,9 +89,13 @@ class MainFrag : Fragment()
         emptyPromt?.visibility = View.VISIBLE;
 
         recyview = v.findViewById(R.id.frag_main_recyView);
-        recyview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-        recyview.adapter = recydapter;
+        recyview?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
+        recyview?.adapter = recydapter;
 
+        (v.findViewById<FloatingActionButton>(R.id.frag_main_fab)).setOnClickListener{
+            //navtroller.navigate(R.id.action_mainFrag_to_addPointFrag);
+            AddPointDialogFrag().show(childFragmentManager, AddPointDialogFrag.fragtag);
+        }
     }
 
     override fun onStart() {
@@ -101,15 +114,31 @@ class MainFrag : Fragment()
     */
     private fun KF_UPDATE_UI(inwp : List<Wpoint>?)
     {
-        if(inwp != null && inwp?.size != 0) {
-            Log.i(TAG, "KF_UPDATE_UI: WPOINT IS NON NULL ${inwp.size}");
-            lifecycleScope.launch{
-                emptyPromt?.visibility = View.GONE;
-                recydapter.SetData(inwp!!);
+        lifecycleScope.launch{
+            if(inwp?.size == 0 ) {
+                recydapter.dataSet.clear();
+                recyview?.recycledViewPool?.clear();
+                recydapter.notifyDataSetChanged();
+                emptyPromt?.visibility = View.VISIBLE;
             }
-        } else {
-            emptyPromt?.visibility = View.VISIBLE;
+            else {
+                var temp = recydapter.dataSet;
+                var intemp = inwp?.toSortedSet();
+                if (intemp != null) {
+                    if(temp.size <= intemp.size) {
+                        temp.retainAll(intemp); //-> get common
+                        intemp.removeAll(temp);
+                        for(ele in intemp) {
+                            temp.add(ele);
+                        }
+                        recydapter.SetData(temp);
+                    }
+                    else if (temp.size > intemp.size){
+                        recydapter.SetData(intemp);
+                    }
+                }
+                emptyPromt?.visibility = View.GONE;
+            }
         }
     }
-
 }
