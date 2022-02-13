@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--todo : remove view gone-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/frag_main_coorLayout"
+        android:visibility="gone"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,5 +71,9 @@
             app:tint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <desoft.studio.webpoint.kustom.ViewFinderView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

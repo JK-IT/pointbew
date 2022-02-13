@@ -26,6 +26,7 @@ import desoft.studio.webpoint.KusAdapter
 import desoft.studio.webpoint.R
 import desoft.studio.webpoint.data.Wpoint
 import desoft.studio.webpoint.data.WpointVM
+import desoft.studio.webpoint.kustom.ViewFinderView
 import kotlinx.coroutines.launch
 
 class MainFrag : Fragment()
@@ -96,6 +97,7 @@ class MainFrag : Fragment()
             //navtroller.navigate(R.id.action_mainFrag_to_addPointFrag);
             AddPointDialogFrag().show(childFragmentManager, AddPointDialogFrag.fragtag);
         }
+
     }
 
     override fun onStart() {

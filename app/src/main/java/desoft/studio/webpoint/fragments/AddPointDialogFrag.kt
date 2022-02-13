@@ -73,7 +73,9 @@ class AddPointDialogFrag :  BottomSheetDialogFragment ()
             setFragmentResult(addPointKey, bdl);
             dismiss();
         }
+        (v.findViewById<Button>(R.id.add_dia_qrbtn)).setOnClickListener{
 
+        }
     }
     companion object {
         val namekey = "WEB NAME KEY";

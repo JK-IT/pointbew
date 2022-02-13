@@ -74,6 +74,11 @@
             android:layout_height="wrap_content">
 
             <Button
+                android:id="@+id/add_dia_qrbtn"
+                android:text="Scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
                 android:id="@+id/add_dia_cancelbtn"
                 android:text="Cancel"
                 android:backgroundTint="#EC7788"
