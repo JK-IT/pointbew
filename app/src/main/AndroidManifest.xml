@@ -3,9 +3,12 @@
     package="desoft.studio.webpoint">
 
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature android:name="android.hardware.camera.any"/>
 
     <application
         android:allowBackup="true"
@@ -16,41 +19,41 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WebPoint"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".SkanActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Skan"/>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3254181174406329~3007920370" />
         <meta-data
             android:name="android.webkit.WebView.MetricsOptOut"
-            android:value="true"/>
+            android:value="true" />
 
         <activity
             android:name=".SplashActi"
-            android:theme="@style/KusSplashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/KusSplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="orientation|screenLayout|screenSize|keyboardHidden|keyboard"
-            android:windowSoftInputMode="adjustPan"
             android:exported="false"
-            >
-        </activity>
-<!--            android:windowSoftInputMode="adjustResize|stateVisible">-->
-
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustPan"></activity> <!-- android:windowSoftInputMode="adjustResize|stateVisible"> -->
         <activity
             android:name=".WebPagesActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="keyboardHidden|screenLayout|screenSize|orientation"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
-
-
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:hardwareAccelerated="true"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

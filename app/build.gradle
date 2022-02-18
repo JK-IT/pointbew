@@ -1,3 +1,4 @@
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -58,8 +59,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     def arch_ver= "2.1.0"
-
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10"
@@ -138,5 +137,16 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_ver")
     // Feature module Support
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_ver")
+    /*Camera dependency*/
+    def camerax_version = "1.1.0-beta01"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-video:${camerax_version}"
 
+    implementation "androidx.camera:camera-view:${camerax_version}"
+    implementation "androidx.camera:camera-extensions:${camerax_version}"
+
+    /*google ml kit*/
+    implementation 'com.google.mlkit:barcode-scanning:17.0.2'
 }

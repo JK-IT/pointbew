@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.selection.SelectionPredicates
@@ -62,6 +63,9 @@ class MainActivity : AppCompatActivity() {
             mInterAds = null;
          }
       })
+      // . set up action bar
+      var tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar);
+      setSupportActionBar(tb);
    }
 
    override fun onResume() {

@@ -33,7 +33,6 @@ class WebPagesActivity : AppCompatActivity() {
 
     private var TAG= "-wpoint- ;=; WEB PAGES ACTIVITY ;=;"
 
-
     private var uihandler = Handler(Looper.getMainLooper());
     private var fullscreenflag : Int = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 
@@ -44,6 +43,7 @@ class WebPagesActivity : AppCompatActivity() {
     private var uiFullPlaying: Boolean = false;
     private var tarUrl : String? = null;
     private var failedToLoad : Boolean = false;
+
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +87,17 @@ class WebPagesActivity : AppCompatActivity() {
                 LoadWebpoint(webv!!, tarUrl!!);
             })
         }
+        // . orientation changed listener
+        /*val orienlisten = object: OrientationEventListener(this) {
+            override fun onOrientationChanged(orientation: Int) {
+                if(orientation == ORIENTATION_UNKNOWN) {
+                    return;
+                } else {
+                    Log.i(TAG, "onOrientationChanged: New Orientation $orientation");
+                }
+            }
+        }
+        orienlisten.enable();*/
     }
     
     override fun onConfigurationChanged(newConfig: Configuration)

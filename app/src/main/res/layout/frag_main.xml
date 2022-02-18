@@ -5,10 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--todo : remove view gone-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/frag_main_coorLayout"
-        android:visibility="gone"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -24,16 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Toolbar
-                android:id="@+id/frag_main_toolbar"
-                android:title="@string/app_name"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:titleTextColor="@color/white"
-                android:elevation="5dp"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:titleTextAppearance="@style/KusToolbarTitle"
-                />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -71,9 +59,5 @@
             app:tint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <desoft.studio.webpoint.kustom.ViewFinderView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,16 +12,20 @@
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/state_selection.xml" value="0.22" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/up_rounded_corner.xml" value="0.2875" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/white_round_corner.xml" value="0.2645" />
-        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_main.xml" value="0.3967391304347826" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_main.xml" value="0.13095238095238096" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_main_old.xml" value="0.2609375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_skan.xml" value="0.1403985507246377" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_web_view.xml" value="0.2609375" />
-        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/add_bottom_dialog.xml" value="0.3984375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/add_bottom_dialog.xml" value="0.264" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/edit_bottom_dialog.xml" value="0.2609375" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_add_new_webpoint.xml" value="0.2609375" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_main.xml" value="0.2609375" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_no_internet.xml" value="0.26927083333333335" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_update_layout.xml" value="0.2609375" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/recyview_item_layout.xml" value="0.3984375" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/menu/frag_dash_board_menu.xml" value="0.26927083333333335" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/menu/main_actbar_menu.xml" value="0.26927083333333335" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/menu/webview_toolbar_menu.xml" value="0.26927083333333335" />
       </map>
     </option>
   </component>

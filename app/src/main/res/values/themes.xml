@@ -30,6 +30,8 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <!--THEME : SCAN ACTIVITY-->
+    <style name="Theme.Skan" parent="Theme.WebPoint">
 
-
+    </style>
 </resources>

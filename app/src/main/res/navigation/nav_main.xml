@@ -9,18 +9,5 @@
         android:id="@+id/mainFrag"
         android:name="desoft.studio.webpoint.fragments.MainFrag"
         tools:layout="@layout/frag_main"
-        android:label="MainFrag" >
-        <action
-            android:id="@+id/action_mainFrag_to_addPointFrag"
-            app:destination="@id/addPointFrag" />
-    </fragment>
-    <fragment
-        android:id="@+id/addPointFrag"
-        android:name="desoft.studio.webpoint.fragments.AddPointFrag"
-        tools:layout="@layout/frag_add_new_webpoint"
-        android:label="AddPointFrag" >
-        <action
-            android:id="@+id/action_addPointFrag_to_mainFrag"
-            app:destination="@id/mainFrag" />
-    </fragment>
+        android:label="MainFrag" />
 </navigation>

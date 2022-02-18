@@ -1,27 +1,32 @@
 package desoft.studio.webpoint.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.DialogFragment
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import desoft.studio.webpoint.R
+import desoft.studio.webpoint.SkanActivity
 import desoft.studio.webpoint.data.Wpoint
 
 class AddPointDialogFrag :  BottomSheetDialogFragment ()
 {
     private val TAG = "-wpoint- BOTTOM SHEET DIALOG FRAGMENT";
+    private val skanlauncher = KF_LAUNCH_SKAN_FOR_URL();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
     }
 
+    // *                onCreateView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +42,7 @@ class AddPointDialogFrag :  BottomSheetDialogFragment ()
     private lateinit var addbtn : Button;
     private lateinit var cancelbtn : Button;
 
+    // *                     onViewCreated
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
         nalout = v.findViewById(R.id.add_dia_name_lout);
         name = v.findViewById(R.id.add_dia_name);
@@ -46,6 +52,16 @@ class AddPointDialogFrag :  BottomSheetDialogFragment ()
         cancelbtn = v.findViewById(R.id.add_dia_cancelbtn);
         cancelbtn.setOnClickListener {
             dismissAllowingStateLoss();
+        }
+
+        urlout.apply {
+            setEndIconActivated(true);
+            setEndIconOnClickListener {
+                //Toast.makeText(requireContext(), "Scan me", Toast.LENGTH_SHORT).show();
+                var webinte = Intent(requireContext(), SkanActivity::class.java);
+                webinte.putExtra(SkanActivity.fromWhereKey, fromAddpointFrag);
+                skanlauncher.launch(webinte);
+            }
         }
         addbtn.setOnClickListener {
             if(name.text.isNullOrBlank()) {
@@ -73,15 +89,49 @@ class AddPointDialogFrag :  BottomSheetDialogFragment ()
             setFragmentResult(addPointKey, bdl);
             dismiss();
         }
-        (v.findViewById<Button>(R.id.add_dia_qrbtn)).setOnClickListener{
 
+    }
+
+    //  *                   onSaveInstanceState
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState);
+    }
+
+    // + --------->>-------->>--------->>*** -->>----------->>>>
+
+    /**
+    * *                 KF_LAUNCH_SKAN_FOR_URL
+    */
+    private fun KF_LAUNCH_SKAN_FOR_URL() : ActivityResultLauncher<Intent>
+    {
+        return registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            //Log.w(TAG, "KF_LAUNCH_SKAN_FOR_URL: Getting result from launching skan activity");
+            if(it.resultCode == AddPointDialogFrag.addFragSheetResuCode) {
+                var data = it.data;
+                if(data != null) {
+                    //Log.i(TAG, "KF_LAUNCH_SKAN_FOR_URL: Receive this result from skan ${data.getStringExtra( urlkey)}");
+                    url.setText(data.getStringExtra(urlkey));
+                }
+            }
         }
     }
+
+    // + --------->>-------->>--------->>*** -->>----------->>>>
     companion object {
         val namekey = "WEB NAME KEY";
         val urlkey = "WEB URL KEY";
         val addPointKey = "WEB POINT REQUEST KEY";
         val addBundleKey = "WEB POINT BUNDLE KEY";
         val fragtag = "WEB PONINT FRAG TAG";
+        val fromAddpointFrag = "From ADD POINT FRAG";
+        val addFragSheetResuCode  = 1;
+
+        fun Instance(inpa : String) : AddPointDialogFrag {
+            return AddPointDialogFrag().also {
+                it.arguments = Bundle().also {
+                    it.putString(namekey, inpa);
+                };
+            }
+        }
     }
 }
