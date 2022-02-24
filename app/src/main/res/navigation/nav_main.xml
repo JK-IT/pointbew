@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFrag"
-        android:name="desoft.studio.webpoint.fragments.MainFrag"
-        tools:layout="@layout/frag_main"
+        android:name="desoft.studio.webpoint.fragments.DashboardFrag"
+        tools:layout="@layout/frag_dashboard"
         android:label="MainFrag" />
 </navigation>

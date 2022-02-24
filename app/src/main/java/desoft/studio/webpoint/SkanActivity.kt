@@ -20,7 +20,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import desoft.studio.webpoint.fragments.AddPointDialogFrag
-import desoft.studio.webpoint.fragments.MainFrag
+import desoft.studio.webpoint.fragments.DashboardFrag
 import java.lang.Exception
 
 class SkanActivity : AppCompatActivity() {
@@ -104,7 +104,7 @@ class SkanActivity : AppCompatActivity() {
                                 Log.w(TAG, "KF_CAMERA_INIT: ${bco.rawValue} ${bco.valueType} ${bco.displayValue}");
                                 if(bco.valueType == Barcode.TYPE_URL) {
                                     var disval = bco.url;
-                                    if(fromWhere != null && fromWhere.equals(MainFrag.fromMainFrag)) {
+                                    if(fromWhere != null && fromWhere.equals(DashboardFrag.fromMainFrag)) {
                                         webinte!!.putExtra(WebPagesActivity.webUrl, disval?.url);
                                         Log.d(TAG, "KF_CAMERA_INIT: Start web pages activity ");
                                         startActivity(webinte);

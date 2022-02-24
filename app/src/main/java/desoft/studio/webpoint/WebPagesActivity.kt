@@ -36,11 +36,11 @@ class WebPagesActivity : AppCompatActivity() {
     private var uihandler = Handler(Looper.getMainLooper());
     private var fullscreenflag : Int = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 
+    private lateinit var rootframlout : FrameLayout;
+
     private var webv : WebView? = null;
     private var spinner : ProgressBar? = null;
-    private var originalUrl : String = "";
     private var currUrl : String? = "";
-    private var uiFullPlaying: Boolean = false;
     private var tarUrl : String? = null;
     private var failedToLoad : Boolean = false;
 
@@ -65,10 +65,6 @@ class WebPagesActivity : AppCompatActivity() {
         var adview : com.google.android.gms.ads.AdView = findViewById(R.id.webview_adview);
         adview.loadAd(adquest);
 
-        if(savedInstanceState != null ) {
-            uiFullPlaying = savedInstanceState.getBoolean(webFullPlaying, false);
-        }
-
         setSupportActionBar(findViewById(R.id.wv_toolbar));
         val actbar = supportActionBar;
 
@@ -87,6 +83,9 @@ class WebPagesActivity : AppCompatActivity() {
                 LoadWebpoint(webv!!, tarUrl!!);
             })
         }
+            //. root framelayout
+        rootframlout = findViewById(R.id.wv_framelayout);
+
         // . orientation changed listener
         /*val orienlisten = object: OrientationEventListener(this) {
             override fun onOrientationChanged(orientation: Int) {
@@ -104,19 +103,11 @@ class WebPagesActivity : AppCompatActivity() {
     {
         super.onConfigurationChanged(newConfig);
         Log.d(TAG, "onConfigurationChanged: = ${newConfig}");
-        /*if(uiFullPlaying) {
-            var cuvi = (webv?.webChromeClient as MyChromeCli).GetCustomView();
-            if(cuvi != null ) {
-                Log.d(TAG, "onConfigurationChanged: CUSTOM VIEW IS NULL = ${cuvi == null}");
-
-            }
-        }*/
     }
     
     override fun onSaveInstanceState(outState: Bundle)
     {
         webv?.saveState(outState);
-        outState.putBoolean(webFullPlaying, uiFullPlaying);
         super.onSaveInstanceState(outState)
     }
     
@@ -160,13 +151,6 @@ class WebPagesActivity : AppCompatActivity() {
        when(item.itemId)
        {
            R.id.webview_menu_reload -> {
-               /*if(failedToLoad)
-               {
-                   LoadWebpoint(webv!!,tarUrl!!);
-               } else
-               {
-                   webv?.reload();
-               }*/
                webv?.reload();
            }
            R.id.webview_menu_open_browser->{
@@ -221,7 +205,7 @@ class WebPagesActivity : AppCompatActivity() {
         v.settings.apply{
             javaScriptEnabled = true;
             domStorageEnabled = true;
-            useWideViewPort = true;
+            useWideViewPort = false;
             loadWithOverviewMode = true;
             setSupportZoom(true);
             layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING;
@@ -270,7 +254,7 @@ class WebPagesActivity : AppCompatActivity() {
     private fun KF_REGISTER_UI_CHANGED_WATCHER()
     {
         window.decorView.setOnSystemUiVisibilityChangeListener { uivisi ->
-            if(uiFullPlaying) {
+            /*if(uiFullPlaying) {
                 uihandler.postDelayed(object : Runnable{
                     override fun run() {
                         Log.i(TAG, "Change ui back to full screen");
@@ -297,7 +281,7 @@ class WebPagesActivity : AppCompatActivity() {
                 Log.d(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag layout stable is NOT on");
             } else {
                 Log.d(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag layout stable is ON");
-            }
+            }*/
         }
     }
 
@@ -313,12 +297,12 @@ class WebPagesActivity : AppCompatActivity() {
             //v!!.visibility = View.INVISIBLE;
             //super.onPageStarted(v, url, favicon)
         }
-        
+
         public override fun onPageFinished(view: WebView?, url: String?) {
             spinner!!.visibility = View.GONE;
-            view?.scrollTo(0, 0)
+            //view?.scrollTo(0, 0)
             currUrl = url;
-            view?.loadUrl("javascript:(function(){ document.body.style.paddingBottom = '10px'})();");
+            view?.loadUrl("javascript:(function(){ document.body.style.paddingBottom = '50px'})();");
             //view!!.visibility = View.VISIBLE;
             //super.onPageFinished(view, url)
         }
@@ -327,7 +311,7 @@ class WebPagesActivity : AppCompatActivity() {
             return super.shouldOverrideUrlLoading(view, request)
         }
     }
-    
+
     inner class MyChromeCli: WebChromeClient()
     {
         private var customView: View? = null;
@@ -335,7 +319,7 @@ class WebPagesActivity : AppCompatActivity() {
         private var oriSysUIVisibility: Int? = null;
 
         var fullayrams = WindowManager.LayoutParams().also {
-            it.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            //it.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN;
             it.width = WindowManager.LayoutParams.MATCH_PARENT;
             it.height = WindowManager.LayoutParams.MATCH_PARENT;
         }
@@ -349,11 +333,10 @@ class WebPagesActivity : AppCompatActivity() {
         {
             return customView;
         }
-    
+
         override fun onShowCustomView(paview: View?, callback: CustomViewCallback?)
         {
-            Log.i(TAG, "onShowCustomView: Custom view will be in fullscreen and view is null = ${customView == null}");
-            uiFullPlaying = true;
+            Log.i(TAG, "onShowCustomView: Custom view will be in fullscreen and custom view is null = ${customView == null}");
             //super.onShowCustomView(paview, callback);
             if(customView!= null)
             {
@@ -361,24 +344,24 @@ class WebPagesActivity : AppCompatActivity() {
                 return;
             }
             customView = paview;
-            (this@WebPagesActivity.window.decorView as FrameLayout).addView(customView, fullayrams);
+            rootframlout.addView(customView, fullayrams);
             oriSysUIVisibility = this@WebPagesActivity.window.decorView.systemUiVisibility;
             customViewCback = callback;
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             //this@WebPagesActivity.window.decorView.systemUiVisibility = 3846;
             this@WebPagesActivity.window.decorView.systemUiVisibility = fullscreenflag;
 
         }
-    
+
         override fun onHideCustomView()
         {
             Log.i(TAG, "onHideCustomView: Custom view is hide");
-            uiFullPlaying = false;
-            (this@WebPagesActivity.window.decorView as FrameLayout).removeView(customView);
-            customView = null;
             this@WebPagesActivity.window.decorView.systemUiVisibility = oriSysUIVisibility!!;
+            rootframlout.removeView(customView);
+            customView = null;
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             customViewCback?.onCustomViewHidden();
             customViewCback = null;
-            super.onHideCustomView();
         }
 
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
@@ -392,5 +375,5 @@ class WebPagesActivity : AppCompatActivity() {
             return super.onConsoleMessage(consoleMessage)
         }
     }
-    
+
 }

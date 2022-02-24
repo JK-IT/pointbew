@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
@@ -7,59 +9,73 @@
     android:layout_height="match_parent"
     tools:context=".WebPagesActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/webview_coor"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fitsSystemWindows="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <FrameLayout
+        android:id="@+id/wv_framelayout"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/webview_adview">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/wv_appbar"
-            android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/webview_adview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/webview_coor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/wv_toolbar"
-                app:titleTextColor="@color/white"
-                app:titleTextAppearance="@style/KusToolbarTitle"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                android:elevation="5dp">
-            </androidx.appcompat.widget.Toolbar>
-
-            <ProgressBar
-                android:id="@+id/spin_bar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="100"
-                android:elevation="3dp"
-                android:indeterminate="true"
-                android:indeterminateTint="#47C8FB" />
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <ScrollView
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            android:fillViewport="true"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            android:paddingBottom="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <WebView
-                android:id="@+id/webview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/webview_adview">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/wv_appbar"
                 android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </ScrollView>
+                android:layout_height="wrap_content">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/wv_toolbar"
+                    app:titleTextColor="@color/white"
+                    app:titleTextAppearance="@style/KusToolbarTitle"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    android:elevation="5dp">
+                </androidx.appcompat.widget.Toolbar>
+
+                <ProgressBar
+                    android:id="@+id/spin_bar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:elevation="3dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="#47C8FB" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <WebView
+                android:id="@+id/webview"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                android:fitsSystemWindows="true"
+                android:paddingBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+<!--            <ScrollView
+
+                android:fillViewport="true"
+                android:fitsSystemWindows="true"
+                android:paddingBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </ScrollView>-->
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
+
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/webview_adview"
@@ -68,7 +84,7 @@
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/webview_coor"
+        app:layout_constraintTop_toBottomOf="@id/wv_framelayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

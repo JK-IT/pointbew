@@ -34,7 +34,7 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <!-- Toolbar -->
+    <!-- Toolbar text -->
     <style name="KusToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="fontFamily">@font/montserratbold</item>
     </style>
@@ -45,11 +45,17 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- Splash screen -->
+    <!-- Splash screen theme -->
     <style name="KusSplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@drawable/splash_acti_background</item>
+        <item name="android:windowBackground">@drawable/ic_splash_acti_bg</item>
+    </style>
+
+    <!--THEME : SCAN ACTIVITY-->
+    <style name="Theme.Skan" parent="Theme.WebPoint">
+
     </style>
 
 </resources>

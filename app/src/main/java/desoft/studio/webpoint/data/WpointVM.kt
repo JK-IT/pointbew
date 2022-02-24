@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.recyclerview.selection.Selection
+import desoft.studio.webpoint.Wpappli
 import desoft.studio.webpoint.sharedStore.KusAdsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ import kotlinx.coroutines.withContext
 class WpointVM(appli: Application) : AndroidViewModel(appli)
 {
    private val TAG = "-wpoint- View Model";
-   val pointDao = WpointDatabase.GetDatabase(appli).WpointDao;
+   val pointDao = (appli as Wpappli).appdb.WpointDao;
    private val repo:WpointRepo = WpointRepo(pointDao);
    private val adsrepo : KusAdsManager = KusAdsManager(appli);
 

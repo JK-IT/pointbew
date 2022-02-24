@@ -18,9 +18,7 @@ abstract class WpointDatabase : RoomDatabase()
       
       fun GetDatabase(ctx: Context): WpointDatabase
       {
-         
-         synchronized(this)
-         {
+         synchronized(this) {
             var instance = _ins;
             if(instance == null) {
                instance = Room.databaseBuilder(ctx.applicationContext, WpointDatabase::class.java,"webpoint_db").fallbackToDestructiveMigrationFrom(1, 2 , 3).build();

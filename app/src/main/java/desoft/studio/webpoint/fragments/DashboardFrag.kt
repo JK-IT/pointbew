@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -25,7 +25,7 @@ import desoft.studio.webpoint.data.Wpoint
 import desoft.studio.webpoint.data.WpointVM
 import kotlinx.coroutines.launch
 
-class MainFrag : Fragment()
+class DashboardFrag : Fragment()
 {
     private val TAG = "-wpoint- =;= MAIN FRAGMENT =;=";
     private val pointdb : WpointVM by activityViewModels<WpointVM>();
@@ -33,7 +33,7 @@ class MainFrag : Fragment()
     private var scannerlauncher  = KF_SKAN_LAUNCHER_RESU();
 
     private lateinit var myBar : android.app.ActionBar;
-    private var emptyPromt : TextView?= null;
+    private var emptyPromt : LinearLayout?= null;
     private var recyview : RecyclerView?=null;
     private lateinit var recydapter : KusAdapter;
 
@@ -71,7 +71,7 @@ class MainFrag : Fragment()
         savedInstanceState: Bundle?
     ): View?
     {
-        return inflater.inflate(R.layout.frag_main, container, false);
+        return inflater.inflate(R.layout.frag_dashboard, container, false);
     }
 
     /**
@@ -84,11 +84,10 @@ class MainFrag : Fragment()
 /*        (activity)?.setActionBar(v.findViewById(R.id.frag_main_toolbar))
         myBar = (activity)?.actionBar !!;*/
 
-
-        emptyPromt = v.findViewById(R.id.frag_main_empty_data_view);
+        emptyPromt = v.findViewById(R.id.frag_dboard_empty_holder);
         emptyPromt?.visibility = View.VISIBLE;
 
-        recyview = v.findViewById(R.id.frag_main_recyView);
+        recyview = v.findViewById(R.id.frag_dboard_recyView);
         recyview?.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
         recyview?.adapter = recydapter;
 

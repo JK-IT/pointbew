@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.view.ActionMode
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -34,15 +35,12 @@ class MainActivity : AppCompatActivity() {
    private val TAG = "-wpoint- ==> MAIN ACTIVITY <==";
    private lateinit var navtroller : NavController;
 
-   var kusdapter: KusAdapter? = null;
    private val pointdb : WpointVM by viewModels();
-   private var tracker: SelectionTracker<String>? = null;
-   private var fragview: View? = null;
-   private var actMode : ActionMode? = null;
    private var mInterAds : InterstitialAd? = null;
    
    override fun onCreate(savedInstanceState: Bundle?) {
-      super.onCreate(savedInstanceState)
+
+      super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
       lifecycleScope.launch{
          pointdb.ReadPoints();
