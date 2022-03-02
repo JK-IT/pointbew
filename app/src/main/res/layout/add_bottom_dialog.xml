@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     app:behavior_hideable="true"
+    android:background="@drawable/bottom_dia_bg"
     android:paddingVertical="20dp"
     android:paddingHorizontal="5dp"
     android:layout_width="match_parent"
@@ -10,7 +11,6 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:background="@drawable/up_rounded_corner"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

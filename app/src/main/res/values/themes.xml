@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.WebPoint" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.WebPoint" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#ff8a80</item>
         <item name="colorPrimaryVariant">#c85a54</item>
@@ -29,6 +29,8 @@
         <!--disable status bar-->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <!--transparent navigation bar-->
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
     </style>
 
 

@@ -1,14 +1,10 @@
 package desoft.studio.webpoint
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.Uri
-import android.os.Build
+import android.net.*
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,14 +14,12 @@ import android.util.Log
 import android.view.*
 import android.webkit.*
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updatePadding
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 private const val tagg = "WEB PAGES ACTIVITY";
 
@@ -34,69 +28,82 @@ class WebPagesActivity : AppCompatActivity() {
     private var TAG= "-wpoint- ;=; WEB PAGES ACTIVITY ;=;"
 
     private var uihandler = Handler(Looper.getMainLooper());
-    private var fullscreenflag : Int = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+    private lateinit var connecman : ConnectivityManager;
+    private var currDefaNetwork : Network? = null;
+    private var netCBRegisteredFlag :Boolean=false;
+    private var nowifiBotdia : BottomSheetDialog?=null;
+
+    private val fullscreenflag : Int = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+
+    private val netCapReq : NetworkRequest = NetworkRequest.Builder()
+        // .addCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND)
+        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
+       // .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+        .build();
+
 
     private lateinit var rootframlout : FrameLayout;
 
     private var webv : WebView? = null;
     private var spinner : ProgressBar? = null;
     private var currUrl : String? = "";
-    private var tarUrl : String? = null;
+    private var originUrl : String? = null;
     private var failedToLoad : Boolean = false;
 
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /**
+    * *                 onCreate
+    */
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        Log.i(TAG, "onCreate: webpages created");
         super.onCreate(savedInstanceState)
-        tarUrl = intent.getStringExtra(webUrl).toString();
-
-        @Suppress("DEPRECATION")
-        if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            window.decorView.apply {
-                //systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LOW_PROFILE;
-            }
-        }
-
         setContentView(R.layout.activity_web_view)
-        //set show ads
+
+        originUrl = intent.getStringExtra(webUrl).toString();
+
+            //. set up connection manager
+        connecman = getSystemService(ConnectivityManager::class.java);
+        currDefaNetwork = connecman.activeNetwork;
+        //. register network callback
+        connecman.registerDefaultNetworkCallback(defNetCb, uihandler);
+            //set show ads
         spinner = findViewById(R.id.spin_bar);
         MobileAds.initialize(this);
         var adquest = AdRequest.Builder().build();
         var adview : com.google.android.gms.ads.AdView = findViewById(R.id.webview_adview);
         adview.loadAd(adquest);
-
+            //.support bar
         setSupportActionBar(findViewById(R.id.wv_toolbar));
         val actbar = supportActionBar;
-
         actbar?.apply {
             title = intent.getStringExtra(webName);
             setDisplayHomeAsUpEnabled(true);
             setDisplayShowHomeEnabled(true);
             setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_white);
         }
-        KF_REGISTER_UI_CHANGED_WATCHER();
-        //set up webview
+            //set up webview
         webv = findViewById<WebView>(R.id.webview);
         SetupWebview(webv!!);
         if(savedInstanceState == null){
             webv!!.post(Runnable {
-                LoadWebpoint(webv!!, tarUrl!!);
+                LoadWebpoint(webv!!, originUrl!!);
             })
         }
             //. root framelayout
         rootframlout = findViewById(R.id.wv_framelayout);
 
-        // . orientation changed listener
-        /*val orienlisten = object: OrientationEventListener(this) {
-            override fun onOrientationChanged(orientation: Int) {
-                if(orientation == ORIENTATION_UNKNOWN) {
-                    return;
-                } else {
-                    Log.i(TAG, "onOrientationChanged: New Orientation $orientation");
-                }
-            }
-        }
-        orienlisten.enable();*/
+    }
+    /**
+    * *                 onStart
+    */
+    override fun onStart()
+    {
+        super.onStart();
     }
     
     override fun onConfigurationChanged(newConfig: Configuration)
@@ -122,18 +129,49 @@ class WebPagesActivity : AppCompatActivity() {
         super.onPause();
     }
 
+    override fun onStop() {
+        //. unregister network call back to stop leaking
+        connecman.unregisterNetworkCallback(defNetCb);
+        super.onStop();
+    }
+
     override fun onResume() {
         super.onResume();
         webv?.onResume();
     }
-    
+    /**
+    * *                         companion object
+    */
     companion object{
         public const val webUrl = "WEB URL";
         public const val webName = "WEB NAME";
         public const val webFullPlaying = "UI WEB FULL SCREEN PLAYING";
     }
 
-    // + --------->>-------->>--------->>*** -->>----------->>>>
+    override fun onBackPressed() {
+        if(webv!!.canGoBack())
+        {
+            webv!!.goBack();
+        } else
+        {
+            finish();
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK && webv?.canGoBack() == true) {
+            webv?.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun finish() {
+        webv!!.clearCache(true);
+        webv!!.clearHistory();
+        super.finish()
+    }
     /**
     * *                         onCreateOptionsMenu
     */
@@ -167,34 +205,31 @@ class WebPagesActivity : AppCompatActivity() {
        }
        return super.onOptionsItemSelected(item);
     }
-    
-    override fun onBackPressed() {
-        if(webv!!.canGoBack())
-        {
-            webv!!.goBack();
-        } else
-        {
-            finish();
+    // + --------->>-------->>--------->>*** -->>----------->>>>
+
+    /**
+    * *             NETWORK DEFAULT CALLBACK
+    */
+    private val defNetCb = object: ConnectivityManager.NetworkCallback(){
+        override fun onAvailable(network: Network) {
+            Log.i(TAG, "onAvailable: DEAFAULT NETWORK IS AVAI");
+            currDefaNetwork = network;
+            if(nowifiBotdia!=null && nowifiBotdia?.isShowing == true) {
+                nowifiBotdia?.dismiss();
+            }
+            webv?.reload();
+        }
+
+        override fun onLost(network: Network) {
+            nowifiBotdia = BottomSheetDialog(this@WebPagesActivity);
+            nowifiBotdia?.apply {
+                setContentView(R.layout.dialog_bottom_nowifi);
+            }
+            currDefaNetwork = null;
+            nowifiBotdia?.show();
         }
     }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean
-    {
-        if(keyCode == KeyEvent.KEYCODE_BACK && webv?.canGoBack() == true) {
-            webv?.goBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-
-    override fun finish() {
-        webv!!.clearCache(true);
-        webv!!.clearHistory();
-        super.finish()
-    }
-    
-// + --------->>-------->>--------->>*** -->>----------->>>>
-
+    // + --------->>-------->>--------->>*** -->>----------->>>>
 
     /**
     * *                         SetupWebview
@@ -222,89 +257,22 @@ class WebPagesActivity : AppCompatActivity() {
     */
     private fun LoadWebpoint(v:WebView ,tarurl: String)
     {
-        // checking for connection
-        var cm:ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager;
-        Toast.makeText(this, "Loading $tarUrl", Toast.LENGTH_SHORT).show();
-        val netObj = cm.activeNetwork;
-        if(netObj != null)
-        {
-            val actnw = cm.getNetworkCapabilities(netObj);
-            if(actnw!= null && actnw.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
-            {
-                v.loadUrl(tarurl);
-            }
-        }
-        else
-        {
-            failedToLoad = true;
-            MaterialAlertDialogBuilder(this).setTitle("No Connection")
-                .setIcon(R.drawable.ic_baseline_wifi_off_black_24)
-                .setMessage(R.string.no_connection).setNeutralButton("Ok"){
-                    dia, _ ->
-                    dia.dismiss();
-                }.setCancelable(true).show();
-        }
-        // end checking for connection
-    }
-    // + --------->>-------->>--------->>*** -->>----------->>>>
-
-    /**
-    * *                 KF_REGISTER_UI_CHANGED_WATCHER
-    */
-    private fun KF_REGISTER_UI_CHANGED_WATCHER()
-    {
-        window.decorView.setOnSystemUiVisibilityChangeListener { uivisi ->
-            /*if(uiFullPlaying) {
-                uihandler.postDelayed(object : Runnable{
-                    override fun run() {
-                        Log.i(TAG, "Change ui back to full screen");
-                        window.decorView.systemUiVisibility = fullscreenflag;
-                    }
-                }, 1500)
-            }
-            if(uivisi and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                Log.i(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag full screen is NOT on");
-            } else {
-                Log.i(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag full screen is ON");
-            }
-            if(uivisi and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION == 0) {
-                Log.i(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag Hide navigation is NOT on ");
-            } else {
-                Log.i(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag Hide navigation is ON ");
-            }
-            if(uivisi and View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION == 0) {
-                Log.i(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag layout hide navigation is NOT on");
-            } else {
-                Log.i(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag layout hide navigation is ON");
-            }
-            if(uivisi and (View.SYSTEM_UI_FLAG_LAYOUT_STABLE) == 0) {
-                Log.d(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag layout stable is NOT on");
-            } else {
-                Log.d(TAG, "KF_REGISTER_UI_CHANGED_WATCHER: Flag layout stable is ON");
-            }*/
-        }
+        v.loadUrl(tarurl);
     }
 
-    // + --------->>-------->>--------->>*** -->>----------->>>>
     /**
-     * *CUSTOM WEB VIEW CLIENT CLASS
+     * *    CLASS MYWEBVIEWCLI
      */
     inner class MywebviewCli : WebViewClient()
     {
         override fun onPageStarted(v: WebView?, url: String?, favicon: Bitmap?) {
             spinner!!.visibility = View.VISIBLE;
             failedToLoad = false;
-            //v!!.visibility = View.INVISIBLE;
-            //super.onPageStarted(v, url, favicon)
         }
 
         public override fun onPageFinished(view: WebView?, url: String?) {
             spinner!!.visibility = View.GONE;
-            //view?.scrollTo(0, 0)
             currUrl = url;
-            view?.loadUrl("javascript:(function(){ document.body.style.paddingBottom = '50px'})();");
-            //view!!.visibility = View.VISIBLE;
-            //super.onPageFinished(view, url)
         }
 
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -316,7 +284,6 @@ class WebPagesActivity : AppCompatActivity() {
     {
         private var customView: View? = null;
         private var customViewCback: WebChromeClient.CustomViewCallback? = null;
-        private var oriSysUIVisibility: Int? = null;
 
         var fullayrams = WindowManager.LayoutParams().also {
             //it.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -324,20 +291,9 @@ class WebPagesActivity : AppCompatActivity() {
             it.height = WindowManager.LayoutParams.MATCH_PARENT;
         }
 
-        override fun getDefaultVideoPoster(): Bitmap?
-        {
-            return super.getDefaultVideoPoster()
-        }
-
-        fun GetCustomView () : View?
-        {
-            return customView;
-        }
-
         override fun onShowCustomView(paview: View?, callback: CustomViewCallback?)
         {
             Log.i(TAG, "onShowCustomView: Custom view will be in fullscreen and custom view is null = ${customView == null}");
-            //super.onShowCustomView(paview, callback);
             if(customView!= null)
             {
                 onHideCustomView();
@@ -345,29 +301,23 @@ class WebPagesActivity : AppCompatActivity() {
             }
             customView = paview;
             rootframlout.addView(customView, fullayrams);
-            oriSysUIVisibility = this@WebPagesActivity.window.decorView.systemUiVisibility;
+            //oriSysUIVisibility = this@WebPagesActivity.window.decorView.systemUiVisibility;
             customViewCback = callback;
-            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            //this@WebPagesActivity.window.decorView.systemUiVisibility = 3846;
-            this@WebPagesActivity.window.decorView.systemUiVisibility = fullscreenflag;
-
+            var wic = ViewCompat.getWindowInsetsController(rootframlout);
+            Log.d(TAG, "onShowCustomView: view compat is null = ${wic == null}");
+            wic?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE;
+            wic?.hide(WindowInsetsCompat.Type.systemBars());
         }
 
         override fun onHideCustomView()
         {
-            Log.i(TAG, "onHideCustomView: Custom view is hide");
-            this@WebPagesActivity.window.decorView.systemUiVisibility = oriSysUIVisibility!!;
             rootframlout.removeView(customView);
             customView = null;
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             customViewCback?.onCustomViewHidden();
             customViewCback = null;
-        }
-
-        override fun onProgressChanged(view: WebView?, newProgress: Int) {
-            //super.onProgressChanged(view, newProgress);
-            //Log.d(TAG, "onProgressChanged: page load $newProgress");
-
+            var wic = ViewCompat.getWindowInsetsController(rootframlout);
+            Log.d(TAG, "on Hide customview: view compat is null = ${wic == null}");
+            wic?.show(WindowInsetsCompat.Type.systemBars());
         }
 
         override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
@@ -375,5 +325,9 @@ class WebPagesActivity : AppCompatActivity() {
             return super.onConsoleMessage(consoleMessage)
         }
     }
+
+    /**
+    * *                 
+    */
 
 }

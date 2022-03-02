@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2395" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/bottom_dia_bg.xml" value="0.2125" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/ele_selected_bg.xml" value="0.2875" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/general_ele_bg.xml" value="0.2875" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1355" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/ic_baseline_wifi_off_black_24.xml" value="0.2065" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/ic_code_scanner_auto_focus_on.xml" value="0.1355" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/ic_empty_place_holder.xml" value="0.253" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/ic_empty_ui_holder.xml" value="0.204" />
@@ -22,7 +24,7 @@
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/splash_acti_background.xml" value="0.2875" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/state_selection.xml" value="0.22" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/text_gradient_001.xml" value="0.2395" />
-        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/up_rounded_corner.xml" value="0.2875" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/up_rounded_corner.xml" value="0.2125" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/drawable/white_round_corner.xml" value="0.2645" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_main.xml" value="0.13095238095238096" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_main_old.xml" value="0.2609375" />
@@ -30,6 +32,7 @@
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_splash.xml" value="0.38177083333333334" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/activity_web_view.xml" value="0.264" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/add_bottom_dialog.xml" value="0.264" />
+        <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/dialog_bottom_nowifi.xml" value="0.25" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/edit_bottom_dialog.xml" value="0.2609375" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_add_new_webpoint.xml" value="0.2609375" />
         <entry key="..\:/Users/comic/Kspace/pointbew/app/src/main/res/layout/frag_main.xml" value="0.2609375" />

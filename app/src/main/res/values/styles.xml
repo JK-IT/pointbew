@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Dialog Theme -->
-    <style name="KusDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="KusDialogTheme" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AlertTitleStyle</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AlertTextStyle</item>
