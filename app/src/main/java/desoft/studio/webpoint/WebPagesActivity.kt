@@ -30,20 +30,7 @@ class WebPagesActivity : AppCompatActivity() {
     private var uihandler = Handler(Looper.getMainLooper());
     private lateinit var connecman : ConnectivityManager;
     private var currDefaNetwork : Network? = null;
-    private var netCBRegisteredFlag :Boolean=false;
     private var nowifiBotdia : BottomSheetDialog?=null;
-
-    private val fullscreenflag : Int = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-
-    private val netCapReq : NetworkRequest = NetworkRequest.Builder()
-        // .addCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND)
-        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
-       // .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-        .build();
-
 
     private lateinit var rootframlout : FrameLayout;
 
@@ -145,7 +132,6 @@ class WebPagesActivity : AppCompatActivity() {
     companion object{
         public const val webUrl = "WEB URL";
         public const val webName = "WEB NAME";
-        public const val webFullPlaying = "UI WEB FULL SCREEN PLAYING";
     }
 
     override fun onBackPressed() {
@@ -293,7 +279,7 @@ class WebPagesActivity : AppCompatActivity() {
 
         override fun onShowCustomView(paview: View?, callback: CustomViewCallback?)
         {
-            Log.i(TAG, "onShowCustomView: Custom view will be in fullscreen and custom view is null = ${customView == null}");
+            //Log.i(TAG, "onShowCustomView: Custom view will be in fullscreen and custom view is null = ${customView == null}");
             if(customView!= null)
             {
                 onHideCustomView();
@@ -301,10 +287,9 @@ class WebPagesActivity : AppCompatActivity() {
             }
             customView = paview;
             rootframlout.addView(customView, fullayrams);
-            //oriSysUIVisibility = this@WebPagesActivity.window.decorView.systemUiVisibility;
             customViewCback = callback;
             var wic = ViewCompat.getWindowInsetsController(rootframlout);
-            Log.d(TAG, "onShowCustomView: view compat is null = ${wic == null}");
+            //Log.d(TAG, "onShowCustomView: view compat is null = ${wic == null}");
             wic?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE;
             wic?.hide(WindowInsetsCompat.Type.systemBars());
         }
@@ -316,13 +301,8 @@ class WebPagesActivity : AppCompatActivity() {
             customViewCback?.onCustomViewHidden();
             customViewCback = null;
             var wic = ViewCompat.getWindowInsetsController(rootframlout);
-            Log.d(TAG, "on Hide customview: view compat is null = ${wic == null}");
+            //Log.d(TAG, "on Hide customview: view compat is null = ${wic == null}");
             wic?.show(WindowInsetsCompat.Type.systemBars());
-        }
-
-        override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-            Log.i(TAG, "onConsoleMessage: msg = ${consoleMessage?.message()};")
-            return super.onConsoleMessage(consoleMessage)
         }
     }
 

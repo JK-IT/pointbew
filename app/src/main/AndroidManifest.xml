@@ -21,11 +21,6 @@
         android:theme="@style/Theme.WebPoint"
         android:usesCleartextTraffic="true">
 
-        <activity
-            android:name=".SkanActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Skan"/>
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3254181174406329~3007920370" />
@@ -56,6 +51,12 @@
             android:exported="false"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
+
+
+        <activity
+            android:name=".SkanActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Skan"/>
     </application>
 
 </manifest>

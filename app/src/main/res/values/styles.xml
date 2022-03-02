@@ -53,9 +53,4 @@
         <item name="android:windowBackground">@drawable/ic_splash_acti_bg</item>
     </style>
 
-    <!--THEME : SCAN ACTIVITY-->
-    <style name="Theme.Skan" parent="Theme.WebPoint">
-
-    </style>
-
 </resources>

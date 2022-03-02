@@ -6,13 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -52,7 +56,11 @@ class SkanActivity : AppCompatActivity() {
             fromWhere = intent.getStringExtra(fromWhereKey);
         }
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        var framlout = findViewById<FrameLayout>(R.id.skan_framelout);
+        var wic = ViewCompat.getWindowInsetsController(framlout);
+        wic?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE;
+        wic?.hide(WindowInsetsCompat.Type.systemBars());
+        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 
         //. set up webpages inte
         webinte = Intent(this, WebPagesActivity::class.java);
@@ -115,7 +123,6 @@ class SkanActivity : AppCompatActivity() {
                                         }
                                         setResult(AddPointDialogFrag.addFragSheetResuCode, inte);
                                     }
-
                                     imgproxy.close();
                                     finish();
                                     //break;
@@ -124,22 +131,18 @@ class SkanActivity : AppCompatActivity() {
                             imgproxy.close();
                         }
                         .addOnFailureListener {
-                            Log.w(TAG, "KF_CAMERA_INIT: Failed to scan bar code", it.cause);
+                            //Log.w(TAG, "KF_CAMERA_INIT: Failed to scan bar code", it.cause);
                             imgproxy.close();
                         }
                 } else {
-                    Log.i(TAG, "KF_CAMERA_INIT: Image Media is nuLL");
+                    //Log.i(TAG, "KF_CAMERA_INIT: Image Media is nuLL");
                     imgproxy.close();
                 }
             });
-            /*var vipo = ViewPort.Builder(Rational(300, 300), window.decorView.rotation.toInt());
-            var usegrop = UseCaseGroup.Builder()
-                .addUseCase(preve).addUseCase(imgAnalysis!!).setViewPort(vipo.build()).build();*/
+
             try {
                 camProvider.unbindAll();
-
                 kamera = camProvider.bindToLifecycle(this, camSelec, preve, imgAnalysis);
-
             } catch (exc: Exception) {
                 exc.printStackTrace();
             }

@@ -8,6 +8,7 @@
     tools:context=".SkanActivity">
 
     <FrameLayout
+        android:id="@+id/skan_framelout"
         android:background="#EB1B1A1A"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
