@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.selection.SelectionTracker
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import desoft.studio.webpoint.data.Wpoint
@@ -119,15 +120,29 @@ class KusAdapter(private val ctx : Context, var invm : WpointVM) : RecyclerView.
             deletebut = v.findViewById<ImageButton>(R.id.delete_button).apply {
                 isEnabled = true;
                 setOnClickListener{
-                    MaterialAlertDialogBuilder(ctx!!).setTitle("Delete")
+                    var btdia = BottomSheetDialog(ctx!!);
+                    btdia.apply {
+                        setContentView(R.layout.dialog_delete);
+                    }
+                    var ybtn = btdia?.findViewById<Button>(R.id.dia_delete_yes);
+                    ybtn?.setOnClickListener {
+                        val point = dataSet.toList()[absoluteAdapterPosition];
+                        invm.DeletePoint(point);
+                        btdia.dismiss();
+                    }
+                    var nbtn = btdia?.findViewById<Button>(R.id.dia_delete_cancel);
+                    nbtn?.setOnClickListener {
+                        btdia.dismiss();
+                    }
+                    btdia.show();
+/*                    MaterialAlertDialogBuilder(ctx!!).setTitle("Delete")
                         .setMessage("Are you sure?")
                         .setPositiveButton("Yes"){ dis, _ ->
-                            val point = dataSet.toList()[absoluteAdapterPosition];
-                            invm.DeletePoint(point);
+
                             dis.dismiss();
                         }.setNegativeButton("No"){ dis, _ ->
                             dis.dismiss()
-                        }.setCancelable(true).create().show();
+                        }.setCancelable(true).create().show();*/
                 }
             }
         }

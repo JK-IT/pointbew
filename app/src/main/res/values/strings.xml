@@ -16,4 +16,5 @@
     <string name="add_webpoint_frag_title">Add A Web Point</string>
     <string name="menu_delete">Delele</string>
     <string name="no_connection">Opps!!! Something goes wrong, please check your connection and reload</string>
+    <string name="cam_permission">Camera access is required. Please enable camera permission and try again</string>
 </resources>

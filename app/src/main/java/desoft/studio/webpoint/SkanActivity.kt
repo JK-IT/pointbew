@@ -2,11 +2,16 @@ package desoft.studio.webpoint
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
@@ -17,6 +22,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -42,11 +48,14 @@ class SkanActivity : AppCompatActivity() {
     private lateinit var barcodeScanner : BarcodeScanner;
     private var imgAnalysis: ImageAnalysis?=null;
 
-    private var webinte:Intent?=null; //
+    private var webinte:Intent?=null;
+
+    private var bottomdia : BottomSheetDialog?=null;
     /**
     * *             onCreate
     */
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate: skan activity created");
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(window, false);
         setContentView(R.layout.activity_skan);
@@ -70,19 +79,62 @@ class SkanActivity : AppCompatActivity() {
             implementationMode = PreviewView.ImplementationMode.PERFORMANCE;
             scaleType = PreviewView.ScaleType.FILL_CENTER;
         }
-        camPermCheckLauncher.launch(android.Manifest.permission.CAMERA);
         barcodeScanner = BarcodeScanning.getClient(BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_AZTEC)
             .setExecutor(ContextCompat.getMainExecutor(this)).build());
         KF_CAMERA_INIT();
+        //. set up camera permission bottomsheet dialog
+        KF_SETUP_BOTTOM_DIA();
+        camPermCheckLauncher.launch(android.Manifest.permission.CAMERA);
     }
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
     override fun onStop() {
         imgAnalysis?.clearAnalyzer();
         super.onStop();
     }
     // + --------->>-------->>--------->>*** -->>----------->>>>
 
+    /**
+    * *         KF_SETUP_BOTTOM_DIA();
+    */
+    private fun KF_SETUP_BOTTOM_DIA()
+    {
+        bottomdia = BottomSheetDialog(this);
+        bottomdia?.setContentView(R.layout.dialog_bottom_nocamera);
+        bottomdia?.setCanceledOnTouchOutside(false);
+        bottomdia?.setCancelable(false);
+        var okbtn =bottomdia?.findViewById<Button>(R.id.dia_camera_okbtn);
+        okbtn?.setOnClickListener {
+            if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA) == false)  {
+                //Toast.makeText(this, "hey show it", Toast.LENGTH_SHORT).show();
+                KF_OPEN_APP_SETTINGS();
+            }
+            else {
+                camPermCheckLauncher.launch(android.Manifest.permission.CAMERA);
+            }
+        }
+        var openttings = bottomdia?.findViewById<Button>(R.id.dia_camera_opensettings);
+        openttings?.setOnClickListener {
+            KF_OPEN_APP_SETTINGS();
+        }
+        var goback = bottomdia?.findViewById<Button>(R.id.dia_camera_goback);
+        goback?.setOnClickListener {
+            finish();
+        }
+    }
+    /**
+    * *             KF_OPEN_APP_SETTINGS
+    */
+    private fun KF_OPEN_APP_SETTINGS()
+    {
+        var inte = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).also {
+            it.setData(Uri.fromParts("package", packageName, null));
+        }
+        startActivity(inte);
+    }
     /**
     * *                 KF_CAMERA_INIT
     */
@@ -92,8 +144,6 @@ class SkanActivity : AppCompatActivity() {
         camProviderFuture = ProcessCameraProvider.getInstance(this);
         camProviderFuture.addListener(Runnable {
             camProvider = camProviderFuture.get();
-
-
             // .  preview use case
             var preve : Preview = Preview.Builder().build();
             var camSelec : CameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
@@ -156,7 +206,10 @@ class SkanActivity : AppCompatActivity() {
     {
         return registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if(it == false) {
-
+                bottomdia?.show();
+            }
+            else {
+                bottomdia?.dismiss();
             }
         }
     }

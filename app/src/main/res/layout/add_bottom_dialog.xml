@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     app:behavior_hideable="true"
-    android:background="@drawable/bottom_dia_bg"
     android:paddingVertical="20dp"
     android:paddingHorizontal="5dp"
     android:layout_width="match_parent"
