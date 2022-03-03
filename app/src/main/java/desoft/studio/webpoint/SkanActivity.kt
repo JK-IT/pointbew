@@ -2,21 +2,20 @@ package desoft.studio.webpoint
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.Settings
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -39,7 +38,8 @@ class SkanActivity : AppCompatActivity() {
 
     private var fromWhere : String? = null;
 
-    private val camPermCheckLauncher = KF_CHECK_CAMERA_PERM();
+    private val camPermCheckLauncher = KF_CAM_PERM_LAUNCHER();
+    private var camPermFlag :Boolean=false;
     private lateinit var camProviderFuture: ListenableFuture<ProcessCameraProvider>;
     private lateinit var camProvider: ProcessCameraProvider;
     private var viewFinder : PreviewView?=null;
@@ -54,7 +54,8 @@ class SkanActivity : AppCompatActivity() {
     /**
     * *             onCreate
     */
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         Log.d(TAG, "onCreate: skan activity created");
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(window, false);
@@ -68,7 +69,7 @@ class SkanActivity : AppCompatActivity() {
         var framlout = findViewById<FrameLayout>(R.id.skan_framelout);
         var wic = ViewCompat.getWindowInsetsController(framlout);
         wic?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE;
-        wic?.hide(WindowInsetsCompat.Type.systemBars());
+        wic?.hide(WindowInsetsCompat.Type.statusBars());
         //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 
         //. set up webpages inte
@@ -82,16 +83,21 @@ class SkanActivity : AppCompatActivity() {
         barcodeScanner = BarcodeScanning.getClient(BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_AZTEC)
             .setExecutor(ContextCompat.getMainExecutor(this)).build());
-        KF_CAMERA_INIT();
         //. set up camera permission bottomsheet dialog
         KF_SETUP_BOTTOM_DIA();
-        camPermCheckLauncher.launch(android.Manifest.permission.CAMERA);
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    /**
+    * *                     onStart
+    */
+    override fun onStart() {
+        super.onStart();
+        KF_CHECK_CAM_PERM();
     }
-    override fun onStop() {
+
+    override fun onStop()
+    {
+        Log.i(TAG, "onStop: Skan stop");
         imgAnalysis?.clearAnalyzer();
         super.onStop();
     }
@@ -200,15 +206,28 @@ class SkanActivity : AppCompatActivity() {
     }
 
     /**
-    * *             KF_CHECK_CAMERA_PERM
+    * *                 KF_CHECK_CAM_PERM
     */
-    private fun KF_CHECK_CAMERA_PERM(): ActivityResultLauncher<String>
+    private fun KF_CHECK_CAM_PERM()
+    {
+        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            bottomdia?.dismiss();
+            KF_CAMERA_INIT();
+        } else{
+            camPermCheckLauncher.launch(android.Manifest.permission.CAMERA);
+        }
+    }
+    /**
+    * *             KF_CAM_PERM_LAUNCHER
+    */
+    private fun KF_CAM_PERM_LAUNCHER(): ActivityResultLauncher<String>
     {
         return registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if(it == false) {
                 bottomdia?.show();
             }
             else {
+                KF_CAMERA_INIT();
                 bottomdia?.dismiss();
             }
         }

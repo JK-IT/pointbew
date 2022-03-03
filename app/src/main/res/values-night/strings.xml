@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cam_permission">Camera access is required. Please enable camera permission and try again</string>
+</resources>

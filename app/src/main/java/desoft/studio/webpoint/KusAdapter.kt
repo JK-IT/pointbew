@@ -135,14 +135,6 @@ class KusAdapter(private val ctx : Context, var invm : WpointVM) : RecyclerView.
                         btdia.dismiss();
                     }
                     btdia.show();
-/*                    MaterialAlertDialogBuilder(ctx!!).setTitle("Delete")
-                        .setMessage("Are you sure?")
-                        .setPositiveButton("Yes"){ dis, _ ->
-
-                            dis.dismiss();
-                        }.setNegativeButton("No"){ dis, _ ->
-                            dis.dismiss()
-                        }.setCancelable(true).create().show();*/
                 }
             }
         }
