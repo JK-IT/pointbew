@@ -92,9 +92,7 @@ class DashboardFrag : Fragment()
         recyview?.adapter = recydapter;
 
         (v.findViewById<FloatingActionButton>(R.id.frag_main_fab)).setOnClickListener{
-            //navtroller.navigate(R.id.action_mainFrag_to_addPointFrag);
             AddPointDialogFrag().show(childFragmentManager, AddPointDialogFrag.fragtag);
-            //startActivity(Intent( requireActivity(),  SkanActivity::class.java));
         }
 
     }

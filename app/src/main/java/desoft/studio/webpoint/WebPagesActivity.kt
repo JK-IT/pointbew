@@ -47,7 +47,7 @@ class WebPagesActivity : AppCompatActivity() {
     */
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        Log.i(TAG, "onCreate: webpages created");
+        //Log.i(TAG, "onCreate: webpages created");
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
 
@@ -91,12 +91,6 @@ class WebPagesActivity : AppCompatActivity() {
     override fun onStart()
     {
         super.onStart();
-    }
-    
-    override fun onConfigurationChanged(newConfig: Configuration)
-    {
-        super.onConfigurationChanged(newConfig);
-        Log.d(TAG, "onConfigurationChanged: = ${newConfig}");
     }
     
     override fun onSaveInstanceState(outState: Bundle)
@@ -198,7 +192,7 @@ class WebPagesActivity : AppCompatActivity() {
     */
     private val defNetCb = object: ConnectivityManager.NetworkCallback(){
         override fun onAvailable(network: Network) {
-            Log.i(TAG, "onAvailable: DEAFAULT NETWORK IS AVAI");
+            //Log.i(TAG, "onAvailable: DEAFAULT NETWORK IS AVAI");
             currDefaNetwork = network;
             if(nowifiBotdia!=null && nowifiBotdia?.isShowing == true) {
                 nowifiBotdia?.dismiss();
@@ -305,9 +299,5 @@ class WebPagesActivity : AppCompatActivity() {
             wic?.show(WindowInsetsCompat.Type.systemBars());
         }
     }
-
-    /**
-    * *                 
-    */
 
 }

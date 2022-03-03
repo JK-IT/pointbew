@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/dia_add_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     app:behavior_hideable="true"
@@ -45,7 +47,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_dia_name"
                 android:inputType="textCapWords"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionNext|flagNoFullscreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -63,7 +65,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_dia_url"
                 android:inputType="textUri|text"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionDone|flagNoFullscreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>

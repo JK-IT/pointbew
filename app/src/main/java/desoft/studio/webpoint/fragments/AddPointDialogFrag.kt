@@ -7,9 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.setFragmentResult
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -32,7 +36,7 @@ class AddPointDialogFrag :  BottomSheetDialogFragment ()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var v = inflater.inflate(R.layout.add_bottom_dialog, container, false);
+        var v = inflater.inflate(R.layout.dialog_bottom_addpoin, container, false);
         return v;
     }
     private lateinit var nalout : TextInputLayout;
@@ -44,6 +48,14 @@ class AddPointDialogFrag :  BottomSheetDialogFragment ()
 
     // *                     onViewCreated
     override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
+        //. set behaviour
+        var beha = (dialog as BottomSheetDialog).behavior;
+        beha?.let {
+            it.state = BottomSheetBehavior.STATE_EXPANDED;
+            it.isFitToContents = true;
+        }
+
+        //.set view function
         nalout = v.findViewById(R.id.add_dia_name_lout);
         name = v.findViewById(R.id.add_dia_name);
         urlout = v.findViewById(R.id.add_dia_url_lout);
@@ -96,6 +108,7 @@ class AddPointDialogFrag :  BottomSheetDialogFragment ()
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState);
     }
+
 
     // + --------->>-------->>--------->>*** -->>----------->>>>
 

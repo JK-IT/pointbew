@@ -39,7 +39,6 @@ class SkanActivity : AppCompatActivity() {
     private var fromWhere : String? = null;
 
     private val camPermCheckLauncher = KF_CAM_PERM_LAUNCHER();
-    private var camPermFlag :Boolean=false;
     private lateinit var camProviderFuture: ListenableFuture<ProcessCameraProvider>;
     private lateinit var camProvider: ProcessCameraProvider;
     private var viewFinder : PreviewView?=null;
@@ -56,7 +55,7 @@ class SkanActivity : AppCompatActivity() {
     */
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        Log.d(TAG, "onCreate: skan activity created");
+        //Log.d(TAG, "onCreate: skan activity created");
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(window, false);
         setContentView(R.layout.activity_skan);
@@ -97,7 +96,7 @@ class SkanActivity : AppCompatActivity() {
 
     override fun onStop()
     {
-        Log.i(TAG, "onStop: Skan stop");
+        //Log.i(TAG, "onStop: Skan stop");
         imgAnalysis?.clearAnalyzer();
         super.onStop();
     }
@@ -115,7 +114,6 @@ class SkanActivity : AppCompatActivity() {
         var okbtn =bottomdia?.findViewById<Button>(R.id.dia_camera_okbtn);
         okbtn?.setOnClickListener {
             if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA) == false)  {
-                //Toast.makeText(this, "hey show it", Toast.LENGTH_SHORT).show();
                 KF_OPEN_APP_SETTINGS();
             }
             else {
