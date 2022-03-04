@@ -81,7 +81,7 @@
                 android:src="@drawable/ic_baseline_add_24"
                 android:layout_gravity="bottom|end"
                 app:layout_dodgeInsetEdges="bottom"
-                app:layout_behavior="desoft.studio.webpoint.KusFabBehaviour"
+                app:layout_behavior="desoft.studio.webpocket.KusFabBehaviour"
                 app:tint="@color/white" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

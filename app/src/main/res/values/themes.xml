@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.WebPoint" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.WebPocket" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#ff8a80</item>
         <item name="colorPrimaryVariant">#c85a54</item>

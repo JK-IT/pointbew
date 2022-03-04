@@ -23,7 +23,7 @@
             android:id="@+id/frag_add_title"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:text="@string/add_webpoint_frag_title"
+            android:text="@string/add_web_frag_title"
             android:textSize="30sp"
             android:textColor="@color/white"
             android:typeface="sans"
@@ -40,7 +40,7 @@
             android:id="@+id/add_dia_name_lout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:errorEnabled="true"
-            android:hint="Web Name"
+            android:hint="Add Name"
             android:paddingHorizontal="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -59,7 +59,7 @@
             app:errorEnabled="true"
             app:endIconMode="custom"
             app:endIconDrawable="@drawable/ic_baseline_qr_code_scanner_24"
-            android:hint="Web Address"
+            android:hint="Add Url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText

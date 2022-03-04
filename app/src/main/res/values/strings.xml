@@ -1,19 +1,12 @@
 <resources>
-    <string name="app_name">WebPoint</string>
-    <string name="code_canyon">Code Canyon</string>
-    <string name="code_ester">Code Ester</string>
-    <string name="sell_myapp">Sell My App</string>
-
-    <string name="canyon_url">https://codecanyon.net</string>
-    <string name="ester_url">https://www.codester.com</string>
-    <string name="sellmyapp_url">https://www.sellmyapp.com</string>
+    <string name="app_name">WebPocket</string>
     <string name="fab_contentDesc">Adding New Url Point</string>
     <string name="name_of_web">Website Name</string>
     <string name="autofill_hint_webName">Website Name</string>
     <string name="url_of_web">Website Url</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add_webpoint_frag_title">Add A Web Point</string>
+    <string name="add_web_frag_title">Add New Item</string>
     <string name="menu_delete">Delele</string>
     <string name="no_connection">Opps!!! Something goes wrong, please check your connection and reload</string>
     <string name="cam_permission">Camera access is required. Please enable camera permission and try again</string>
